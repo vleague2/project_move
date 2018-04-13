@@ -1,26 +1,48 @@
 
-    var usercity;
+    // var usercity;
     
-    var trailApi = "https://trailapi-trailapi.p.mashape.com/";
+    // var trailApi = "https://trailapi-trailapi.p.mashape.com/";
 
-    var trailParameters = "?limit=10&q[city_cont]="+usercity+"&radius=25";
+    // var trailParameters = "?limit=10&q[city_cont]="+usercity+"&radius=25";
 
-    var mashapeKey = "UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE"; 
-    var h = "Accept: text/plain";
+    // var mashapeKey = "UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE"; 
+    // var h = "Accept: text/plain";
 
-    queryURL1 = trailApi + trailParameters;
+    // queryURL1 = trailApi + trailParameters;
 
-    var usercity;
+$("#user").on("click", function() {
+
+    var userCity = $("#usercity").val().trim()
+
+    console.log(userCity);
 
     var openWeather = "http://api.openweathermap.org/data/2.5/forecast?";
 
-    var opeWeatherparam = "q="+usercity
+    var openWeatherparam = "&q="+userCity
 
     var openWeatherApik ="&APPID=9155ad4470b3c881f026f9305727169c";
 
-    var queryURL2 = openWeather + usercity + openWeatherApik;
+    var queryURL2 = openWeather + openWeatherparam + openWeatherApik;
     
+    $.ajax({
+        url: queryURL2,
+        method: "GET"
+    }).then(function(response){
+        console.log(response);
 
+        var nowWeather = response.list["0"].weather["0"].main;
+
+        var nowWeatherDescription = response.list["0"].weather["0"].description;
+
+        var humidity = response.list["0"].main.humidity;
+
+        var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+        
+        console.log(nowWeather);
+        console.log("Current weather conditions: " + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " degrees Fahrenheit");
+ 
+    });
+})
    
     // $.ajax({
     //   url: queryURL1,
@@ -48,15 +70,4 @@
       
     // });
 
-    // $.ajax({
-    //     url: queryURL2,
-    //     method: "GET"
-    // }).then(function(response){
-    //     console.log(response);
-    //     console.log("hi");
-
-    //     var cityName2 = response.city.name;
-
-    //     console.log(cityName2);
- 
-    // });
+    
