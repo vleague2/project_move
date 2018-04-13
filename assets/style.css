@@ -25,3 +25,15 @@ off white {
     background-size: 600px 400px;
 <img src="assets/images/waterfall.jpg" alt="">
 } */
+
+/* Sticky Footer */
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
