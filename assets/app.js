@@ -1,3 +1,55 @@
+// When the user clicks the search button
+$("#user").on("click", function() {
+
+    // Pull the value from the search form
+    var usercity = $("#usercity").val().trim();
+        console.log(usercity);
+
+    // Starting the API info for the Weather API
+    // Defining the start of the URL
+    var openWeatherURL = "http://api.openweathermap.org/data/2.5/forecast?";
+
+    // query parameter
+    var openWeatherparam = "&q="+userCity
+
+    // API key parameter
+    var openWeatherApik ="&APPID=9155ad4470b3c881f026f9305727169c";
+
+    // putting it all together in a queryURL
+    var queryURL2 = openWeatherURL + openWeatherparam + openWeatherApik;
+    
+    // AJAX call for Open Weather API
+    $.ajax({
+        url: queryURL2,
+        method: "GET"
+
+    // Once data is retrieved from API...
+    }).then(function(response){
+        console.log(response);
+
+        // Pull the current weather and store in a variable
+        var nowWeather = response.list["0"].weather["0"].main;
+
+        // Pull the description of the current weather and store in a variable
+        var nowWeatherDescription = response.list["0"].weather["0"].description;
+
+        // Pull the humidity value and store in a variable
+        var humidity = response.list["0"].main.humidity;
+
+        // Pull and round the current temperature converted to F, store in a variable
+        var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+        
+        console.log(nowWeather);
+
+        // Code below will go in a div with the current weather
+        console.log("Current weather conditions: " + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " degrees Fahrenheit");
+ 
+    });
+})
+   
+
+// CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
+
 
     // var usercity;
     
@@ -10,40 +62,7 @@
 
     // queryURL1 = trailApi + trailParameters;
 
-$("#user").on("click", function() {
 
-    var userCity = $("#usercity").val().trim()
-
-    console.log(userCity);
-
-    var openWeather = "http://api.openweathermap.org/data/2.5/forecast?";
-
-    var openWeatherparam = "&q="+userCity
-
-    var openWeatherApik ="&APPID=9155ad4470b3c881f026f9305727169c";
-
-    var queryURL2 = openWeather + openWeatherparam + openWeatherApik;
-    
-    $.ajax({
-        url: queryURL2,
-        method: "GET"
-    }).then(function(response){
-        console.log(response);
-
-        var nowWeather = response.list["0"].weather["0"].main;
-
-        var nowWeatherDescription = response.list["0"].weather["0"].description;
-
-        var humidity = response.list["0"].main.humidity;
-
-        var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
-        
-        console.log(nowWeather);
-        console.log("Current weather conditions: " + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " degrees Fahrenheit");
- 
-    });
-})
-   
     // $.ajax({
     //   url: queryURL1,
     //   method: "GET",
