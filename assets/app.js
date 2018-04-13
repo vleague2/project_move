@@ -48,15 +48,15 @@
       
     // });
 
-    $.ajax({
-        url: queryURL2,
-        method: "GET"
-    }).then(function(response){
-        console.log(response);
-        console.log("hi");
+    // $.ajax({
+    //     url: queryURL2,
+    //     method: "GET"
+    // }).then(function(response){
+    //     console.log(response);
+    //     console.log("hi");
 
-        var cityName2 = response.city.name;
+    //     var cityName2 = response.city.name;
 
-        console.log(cityName2);
+    //     console.log(cityName2);
  
-    });
+    // });
