@@ -22,7 +22,8 @@ off white {
 /* img{
     background: url(assets/images/waterfall.jpg)
     background-repeat: no-repeat;
-    background-size: 600px 400px;
+    background-attachment: fixed;
+    background-size: auto;
 <img src="assets/images/waterfall.jpg" alt="">
 } */
 
@@ -36,4 +37,55 @@ body {
 
   main {
     flex: 1 0 auto;
+    background-image: url("images/waterfall.dark.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  /* Header - footer */
+
+  .header-footer-color {
+      background-color: #fffffa;
+  }
+  #footer-text {
+      color: #86ac41;
+  }
+
+  .header ,
+  .footer {
+    box-shadow: 0px 0px 8px 2px #000000;
+  }
+
+  /* Search section */
+  
+  .search-content {
+      background-color: rgba(59, 59, 59, 0.8);
+      border-radius: 10px;
+      padding: 60px;
+      /* box-shadow: 20px 20px 50px 15px black; */
+  }
+  
+  .search-btn {
+      margin-top: 20px;
+  }
+
+  .card-color {
+      background-color: #86ac41;
+  }
+
+  button:hover {
+    background-color: #0d1d23; 
+  }
+
+  button:focus {
+    background-color: #86ac41; 
+  }
+
+  .centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* bring your own prefixes */
+    transform: translate(-50%, -50%);
   }
