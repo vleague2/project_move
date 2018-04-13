@@ -10,11 +10,9 @@
 
     queryURL1 = trailApi + trailParameters;
 
-    var usercity;
-
     var openWeather = "http://api.openweathermap.org/data/2.5/forecast?";
 
-    var opeWeatherparam = "q="+usercity
+    var openWeatherparam = "q="+usercity
 
     var openWeatherApik ="&APPID=9155ad4470b3c881f026f9305727169c";
 
@@ -22,31 +20,41 @@
     
 
    
-    // $.ajax({
-    //   url: queryURL1,
-    //   method: "GET",
-    //   headers: {
-    //     "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
-    //     "Accept": "text/plain"
-    //   }
-    // }).then(function(response) {
-    //   console.log(response);
-    //   console.log("my mom does not love me");
+    $.ajax({
+      url: queryURL1,
+      method: "GET",
+      headers: {
+        "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
+        "Accept": "text/plain"
+      }
+    }).then(function(response) {
+      console.log(response);
+      console.log("my mom does not love me");
 
-    // var cityName = response.places[1].city;
-    // var siteName = response.places[1].name;
-    // var lat = response.places[1].lat;
-    // var long = response.places[1].lon;
+    var cityName = response.places[1].city;
+    var siteName = response.places[1].name;
+    var lat = response.places[1].lat;
+    var long = response.places[1].lon;
+    var activity = response.places[1].activities[1].activity_type_name;
+    
+   
+
+    // id 2 is hiking
+    // id 5 is mountain biking 
+    // id 6 is camping
+    // id 7 is caving
+    
 
 
 
-    // console.log(cityName);
-    // console.log(siteName);
-    // console.log(lat);
-    // console.log(long)
+    console.log(cityName);
+    console.log(siteName);
+    console.log(lat);
+    console.log(long);
+    console.log(activity);
      
       
-    // });
+    });
 
     // $.ajax({
     //     url: queryURL2,
