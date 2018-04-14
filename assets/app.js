@@ -2,8 +2,20 @@
 $("#user").on("click", function() {
 
     // Pull the value from the search form
-    var usercity = $("#usercity").val().trim();
-        console.log(usercity);
+    var userCity = $("#usercity").val().trim();
+        console.log(userCity);
+
+    // hide the current content in search-content
+    $(".search-content").css('display', 'none');
+
+    // in retrospect, changing bg color looks funky.....
+    // $("main").css('background-image', 'none').css('background-color', '#7da3a1').css('transition', 'background-image 1s').css('transition', 'background-color 1s');
+
+
+
+
+
+
 
     // Starting the API info for the Weather API
     // Defining the start of the URL
@@ -26,7 +38,7 @@ $("#user").on("click", function() {
     // Once data is retrieved from API...
     }).then(function(response){
         console.log(response);
-
+        
         // Pull the current weather and store in a variable
         var nowWeather = response.list["0"].weather["0"].main;
 
@@ -41,9 +53,12 @@ $("#user").on("click", function() {
         
         console.log(nowWeather);
 
+        // Starting to make the div that will show the current weather but I have to go somewhere so it's unfinished lmao
+        var newWeatherDiv = $("<div>");
+        newWeatherDiv.text("")
+
         // Code below will go in a div with the current weather
         console.log("Current weather conditions: " + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " degrees Fahrenheit");
- 
     });
 })
    
