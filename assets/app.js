@@ -8,15 +8,6 @@ $("#user").on("click", function() {
     // hide the current content in search-content
     $(".search-content").css('display', 'none');
 
-    // in retrospect, changing bg color looks funky.....
-    // $("main").css('background-image', 'none').css('background-color', '#7da3a1').css('transition', 'background-image 1s').css('transition', 'background-color 1s');
-
-
-
-
-
-
-
     // Starting the API info for the Weather API
     // Defining the start of the URL
     var openWeatherURL = "http://api.openweathermap.org/data/2.5/forecast?";
@@ -41,6 +32,7 @@ $("#user").on("click", function() {
         
         // Pull the current weather and store in a variable
         var nowWeather = response.list["0"].weather["0"].main;
+            console.log(nowWeather);
 
         // Pull the description of the current weather and store in a variable
         var nowWeatherDescription = response.list["0"].weather["0"].description;
@@ -51,22 +43,73 @@ $("#user").on("click", function() {
         // Pull and round the current temperature converted to F, store in a variable
         var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
         
-        console.log(nowWeather);
+        // Setting up the dynamically-generated html div for the weather!
 
-        // Starting to make the div that will show the current weather but I have to go somewhere so it's unfinished lmao
-        var newWeatherDiv = $("<div>");
-        newWeatherDiv.text("")
+        // row to house content
+        var weatherRow = $("<div class='row'>");
+            // column to limit width
+            var weatherCol = $("<div class='col s6 offset-s3'>");
 
-        // Code below will go in a div with the current weather
-        console.log("Current weather conditions: " + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " degrees Fahrenheit");
+            // append!
+            weatherRow.append(weatherCol);
+
+                // Make the div that will show the current weather, this is the card container 
+                var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 20px'>");
+
+                // append!
+                weatherCol.append(newWeatherDiv);
+
+                    // Div for the image that attaches to the card
+                    var newWeatherImage = $("<div class='card-image'>");
+
+                    // Append the div for the card image to the card horizontal div
+                    newWeatherDiv.append(newWeatherImage);
+
+                        if (nowWeather == "Clouds") {
+                            var weatherConditionImage = "assets/images/clouds.png";
+                            // add in an image based on the weather
+                            newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                        }
+
+                        else if (nowWeather == "Rain") {
+                            var weatherConditionImage = "assets/images/rain.png";
+                            
+                            // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
+                            newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                        }
+
+                        else {
+                            var weatherConditionImage = "assets/images/sun.png";
+
+                            // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
+                            newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                        }
+
+                    // Make a div that identifies as card stacked
+                    var newWeatherCard = $("<div class='card-stacked'>");
+
+                    // Append the card stacked div to the card horizontal div
+                    newWeatherDiv.append(newWeatherCard);
+
+                    // make a div that identifies the card content
+                    var newWeatherContent = $("<div class='card-content'>");
+
+                    // Append the card content div to the card horizontal div
+                    newWeatherCard.append(newWeatherContent);
+
+                        // Adding in the text for the card
+                        newWeatherContent.append("<p style='font-size: 20px'>Current weather conditions for " + userCity + "</p><br>")
+
+                        // Append a P tag that will hold the weather info
+                        newWeatherContent.append("<p>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p>")
+
+        $("main").append(weatherRow);
     });
 })
+
    
 
 // CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
-
-
-    // var usercity;
     
     // var trailApi = "https://trailapi-trailapi.p.mashape.com/";
 
