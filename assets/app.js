@@ -47,12 +47,14 @@ $("#user").on("click", function() {
         // rows to house content
         var weatherRow = $("<div class='row'>");
 
+        var promptRow = $("<div class='row'>");
+
         var buttonRow = $("<div class='row'>");
 
         var mapRow = $("<div class='row'>")
 
         // append all rows to the container
-        container.append(weatherRow).append(buttonRow).append(mapRow);
+        container.append(weatherRow).append(promptRow).append(buttonRow).append(mapRow);
 
 
             // WEATHER SECTION
@@ -64,7 +66,7 @@ $("#user").on("click", function() {
             weatherRow.append(weatherCol);
 
                 // Make the div that will show the current weather, this is the card container 
-                var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 20px'>");
+                var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 60px'>");
 
                 // append!
                 weatherCol.append(newWeatherDiv);
