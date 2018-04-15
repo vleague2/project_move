@@ -2944,7 +2944,7 @@ ul.staggered-list li {
 }
 
 .page-footer {
-  padding-top: 20px;
+  /* padding-top: 20px; */
   color: #fff;
   background-color: #ee6e73;
 }
@@ -2964,7 +2964,7 @@ ul.staggered-list li {
   -webkit-justify-content: space-between;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  padding: 10px 0px;
+  /* padding: 10px 0px; */
   color: rgba(255, 255, 255, 0.8);
   background-color: rgba(51, 51, 51, 0.08);
 }
@@ -6563,7 +6563,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 }
 
 .input-field .prefix.active {
-  color: #26a69a;
+  /* color: #26a69a; */
 }
 
 .input-field .prefix ~ input,
@@ -6604,7 +6604,7 @@ textarea.materialize-textarea + label:after, .select-wrapper + label:after {
 }
 
 .nav-wrapper .input-field input[type=search] {
-  height: inherit;
+  /* height: inherit; */
   padding-left: 4rem;
   width: calc(100% - 4rem);
   border: 0;
@@ -6765,7 +6765,7 @@ textarea.materialize-textarea {
 
 [type="radio"]:checked + span:after,
 [type="radio"].with-gap:checked + span:after {
-  background-color: #26a69a;
+  /* background-color: #26a69a; */
 }
 
 [type="radio"]:checked + span:after {
@@ -7046,7 +7046,7 @@ textarea.materialize-textarea {
 }
 
 .switch label input[type=checkbox]:checked + .lever:after {
-  background-color: #26a69a;
+  /* background-color: #26a69a; */
 }
 
 .switch label .lever {
@@ -7168,7 +7168,7 @@ select {
 }
 
 .select-wrapper input.select-dropdown:focus {
-  border-bottom: 1px solid #26a69a;
+  /* border-bottom: 1px solid #26a69a; */
 }
 
 .select-wrapper .caret {
@@ -7341,7 +7341,7 @@ input[type=range] + .thumb {
   height: 0;
   width: 0;
   border-radius: 50%;
-  background-color: #26a69a;
+  /* background-color: #26a69a; */
   margin-left: 7px;
   -webkit-transform-origin: 50% 50%;
           transform-origin: 50% 50%;
