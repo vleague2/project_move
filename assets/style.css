@@ -45,9 +45,17 @@ body {
 
   /* Header - footer */
 
+  .header {
+      position: relative;
+      z-index: 1;
+      height: 100px;
+      box-shadow: 0 4px 2px -2px #000000;
+  }
+
   .header-footer-color {
       background-color: #fffffa;
   }
+
   #footer-text {
       color: #86ac41;
   }
@@ -57,15 +65,26 @@ body {
     box-shadow: 0px 0px 8px 2px #000000;
   }
 
+  /* Logo */
+
+  .logo {
+      width: 12%;
+  }
+
   /* Search section */
+
+  .statement {
+    font-family: 'Khula', sans-serif;
+    font-weight: bold;
+  }
   
   .search-content {
-      background-color: rgba(59, 59, 59, 0.8);
+      background-color: rgba(26, 25, 25, 0.8);
       border-radius: 10px;
       padding: 60px;
       /* box-shadow: 20px 20px 50px 15px black; */
   }
-  
+
   .search-btn {
       margin-top: 20px;
   }
