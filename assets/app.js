@@ -149,7 +149,8 @@ $("#user").on("click", function() {
     });
 })
 
-   
+    
+  
 
 // CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -161,6 +162,13 @@ $("#user").on("click", function() {
     // var h = "Accept: text/plain";
 
     // queryURL1 = trailApi + trailParameters;
+
+
+
+    // id 2 is hiking
+    // id 5 is mountain biking 
+    // id 6 is camping
+    // id 7 is caving
 
 
     // $.ajax({
@@ -187,6 +195,6 @@ $("#user").on("click", function() {
     // console.log(long)
      
       
-    // });
+//     });
 
     
