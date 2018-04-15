@@ -146,11 +146,42 @@ $("#user").on("click", function() {
         }).then(function(response2){
             console.log(response2);
         });
+ 
+    // Google maps
+    var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
+
+
+    var gmapCol = $("<div class='col s10'>");
+    
+    $(gmapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+    
+    $(mapRow).append(gmapCol);
+    // (".container").append(mapRow);
+
+    function initMap() {
+        var myLatLng = {lat: -25.363, lng: 131.044};
+
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: myLatLng
+        });
+
+        var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: map,
+          title: 'Hello World!'
+        });
+      }
+ 
     });
+
+
+
 })
 
-    
-  
+
+
+   
 
 // CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
     
@@ -162,13 +193,6 @@ $("#user").on("click", function() {
     // var h = "Accept: text/plain";
 
     // queryURL1 = trailApi + trailParameters;
-
-
-
-    // id 2 is hiking
-    // id 5 is mountain biking 
-    // id 6 is camping
-    // id 7 is caving
 
 
     // $.ajax({
@@ -195,6 +219,6 @@ $("#user").on("click", function() {
     // console.log(long)
      
       
-//     });
+    // });
 
     
