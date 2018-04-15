@@ -58,7 +58,7 @@ $("#user").on("click", function() {
 
 
             // WEATHER SECTION
-
+            
             // column for Weather to limit width
             var weatherCol = $("<div class='col s10 offset-s1'>");
 
@@ -127,7 +127,88 @@ $("#user").on("click", function() {
                             else {
                                 newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
                             }
+            // This is prompt text.
+            var promptCol =$("<div class='col m10 center-align offset-m1'>");
 
+                promptRow.append(promptCol);
+                
+            var promptCard =$("<div class='card'>");
+                
+                promptCol.append(promptCard);
+                
+            var promptCon = $("<div class='card-content'>");
+
+                promptCard.append(promptCon);
+                
+                promptCon.append("<h5> What would you like to do? </h5>");
+
+            // This row is for buttons.
+                
+                var buttonCol1 = $("<div class='col m3 center-align'>");
+
+                var buttonCol2 = $("<div class='col m3 center-align'>");
+
+                var buttonCol3 = $("<div class='col m3 center-align'>");
+
+                var buttonCol4 = $("<div class='col m3 center-align'>");
+                  
+                  buttonRow.append(buttonCol1).append(buttonCol2).append(buttonCol3).append(buttonCol4);
+                  
+                   buttonCol1.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Water </button>");
+
+                   buttonCol2.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Trails </button>");
+                   
+                   buttonCol3.append("<button class='waves-effect waves-light btn-large' style='width: 75%%'> Camping </button>");
+
+                   buttonCol4.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Visit a park </button>");
+
+            // This for the map and content.
+            
+            var mapCol = $("<div class='col m6'>");
+
+                mapRow.append(mapCol);
+
+            var mapCard = $("<div class='card'>");
+
+                mapCol.append(mapCard);
+
+            var mapCon =$("<div class='card-content'>");
+
+                mapCard.append(mapCon);
+
+            var contentCol = $("<div class='col m6'>");
+            
+                mapRow.append(contentCol);
+
+            var contentCard =$("<div class='card-content'>");
+
+                contentCol.append(contentCard);
+
+                
+            
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
         // testing google places API
 
         var lat = response.city.coord.lat;
