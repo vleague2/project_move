@@ -98,10 +98,23 @@ $("#user").on("click", function() {
                     newWeatherCard.append(newWeatherContent);
 
                         // Adding in the text for the card
-                        newWeatherContent.append("<p style='font-size: 20px'>Current weather conditions for " + userCity + "</p><br>")
+                        newWeatherContent.append("<p style='font-size: 20px' class='center-align'>Current weather conditions for " + userCity + "</p><br>")
 
                         // Append a P tag that will hold the weather info
-                        newWeatherContent.append("<p>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p>")
+                        newWeatherContent.append("<p class='center-align'>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
+
+                        // Append a suggestion
+                        if (nowWeather == "Clouds") {
+                            newWeatherContent.append("<p class='center-align'>Today would be a great day to go hiking or mountain biking!</p>");
+                        }
+
+                        else if (nowWeather == "Rain") {
+                            newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or visit a museum, but if you want to brave the weather...</p>");
+                        }
+
+                        else {
+                            newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
+                        }
 
         $("main").append(weatherRow);
     });
