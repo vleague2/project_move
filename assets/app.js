@@ -62,41 +62,50 @@ $("#user").on("click", function() {
             // WEATHER SECTION
             
             // column for Weather to limit width
-            var weatherCol = $("<div class='col s10 offset-s1'>");
+            // var weatherCol = $("<div class='col m10 offset-m1'>");
+
+            // var weatherCol = $("<div class='col m3 offset-m1' style='margin-top: 60px'>");
+            var weatherCol2 = $("<div class='col m10 offset-m1' style='margin-top: 60px'>");
+
 
             // append!
-            weatherRow.append(weatherCol);
+            // weatherRow.append(weatherCol);
+            weatherRow.append(weatherCol2);
 
                 // Make the div that will show the current weather, this is the card container 
-                var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 60px'>");
-
+                // var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 60px'>");
+                var newWeatherDiv = $("<div class='card' id='weatherCard'>");
                 // append!
-                weatherCol.append(newWeatherDiv);
+
+                weatherCol2.append(newWeatherDiv);
 
                     // Div for the image that attaches to the card
-                    var newWeatherImage = $("<div class='card-image' style='background-size:cover'>");
+                    // var newWeatherImage = $("<div class='card-image'>");
+                    // var newWeatherImage = $("<p>");
 
                     // Append the div for the card image to the card horizontal div
-                    newWeatherDiv.append(newWeatherImage);
+                    // newWeatherDiv.append(newWeatherImage);
+                    // weatherCol.append(newWeatherImage);
 
                         if (nowWeather == "Clouds") {
-                            var weatherConditionImage = "assets/images/clouds.png";
+                            var weatherConditionImage = "assets/images/clouds.jpg";
                             // add in an image based on the weather
-                            newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                            // newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                            newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                         }
 
                         else if (nowWeather == "Rain") {
-                            var weatherConditionImage = "assets/images/rain.png";
-                            
+                            var weatherConditionImage = "assets/images/rain_large.jpg";
+                            newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                             // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
-                            newWeatherImage.append($("<img height='200px' src=" + weatherConditionImage + ">"));
+                            // newWeatherImage.append($("<img height='200px' src=" + weatherConditionImage + ">"));
                         }
 
                         else {
-                            var weatherConditionImage = "assets/images/sun.png";
-
+                            var weatherConditionImage = "assets/images/sun.jpg";
+                            newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                             // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
-                            newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
+                            // newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
                         }
 
                     // Make a div that identifies as card stacked
@@ -130,7 +139,7 @@ $("#user").on("click", function() {
                                 newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
                             }
             // This is prompt text.
-            var promptCol =$("<div class='col s10 center-align offset-m1'>");
+            var promptCol =$("<div class='col m10 center-align offset-m1'>");
 
             promptRow.append(promptCol);
                 
