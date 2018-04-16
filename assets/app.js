@@ -37,6 +37,12 @@ $("#user").on("click", function() {
 
         // Pull and round the current temperature converted to F, store in a variable
         var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+
+        // pull the location's latitude
+        var lat = response.city.coord.lat;
+
+        // Pull the location's longitude
+        var long = response.city.coord.lon;
         
         // Setting up the dynamically-generated divs for the page!
 
@@ -51,9 +57,9 @@ $("#user").on("click", function() {
 
         var buttonRow = $("<div class='row'>");
 
-        var buttonRow2 = $("<div class='row'>")
+        var buttonRow2 = $("<div class='row' style='margin-bottom: 40px'>")
 
-        var mapRow = $("<div class='row'>");
+        var mapRow = $("<div class='row' style='margin-bottom: 60px'>");
 
         // append all rows to the container
         container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(mapRow);
@@ -61,51 +67,32 @@ $("#user").on("click", function() {
 
             // WEATHER SECTION
             
-            // column for Weather to limit width
-            // var weatherCol = $("<div class='col m10 offset-m1'>");
-
-            // var weatherCol = $("<div class='col m3 offset-m1' style='margin-top: 60px'>");
+            // column for Weather
             var weatherCol2 = $("<div class='col m10 offset-m1' style='margin-top: 60px'>");
 
-
             // append!
-            // weatherRow.append(weatherCol);
             weatherRow.append(weatherCol2);
 
                 // Make the div that will show the current weather, this is the card container 
-                // var newWeatherDiv = $("<div class='card horizontal' style='margin-top: 60px'>");
                 var newWeatherDiv = $("<div class='card' id='weatherCard'>");
+                
                 // append!
-
                 weatherCol2.append(newWeatherDiv);
 
-                    // Div for the image that attaches to the card
-                    // var newWeatherImage = $("<div class='card-image'>");
-                    // var newWeatherImage = $("<p>");
-
-                    // Append the div for the card image to the card horizontal div
-                    // newWeatherDiv.append(newWeatherImage);
-                    // weatherCol.append(newWeatherImage);
-
+                        // To add the background image to the weather div based on the weather:
                         if (nowWeather == "Clouds") {
                             var weatherConditionImage = "assets/images/clouds.jpg";
-                            // add in an image based on the weather
-                            // newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
                             newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                         }
 
                         else if (nowWeather == "Rain") {
                             var weatherConditionImage = "assets/images/rain_large.jpg";
                             newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                            // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
-                            // newWeatherImage.append($("<img height='200px' src=" + weatherConditionImage + ">"));
                         }
 
                         else {
                             var weatherConditionImage = "assets/images/sun.jpg";
                             newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                            // add in an image based on the weather. NEED TO DO IMAGES IN AN IF/ELSE
-                            // newWeatherImage.append($("<img src=" + weatherConditionImage + ">"));
                         }
 
                     // Make a div that identifies as card stacked
@@ -138,64 +125,111 @@ $("#user").on("click", function() {
                             else {
                                 newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
                             }
-            // This is prompt text.
+
+            // This section goes in the row for the prompt
+
+            // Column for the prompt
             var promptCol =$("<div class='col m10 center-align offset-m1'>");
 
+            // Append to the appropriate row
             promptRow.append(promptCol);
                 
+                // Create a card
                 var promptCard =$("<div class='card'>");
-                    
+                
+                // Append it to the column
                 promptCol.append(promptCard);
                 
+                    // Create the card content 
                     var promptCon = $("<div class='card-content'>");
 
+                    // Append it to the card
                     promptCard.append(promptCon);
                         
+                    // Add text inside
                     promptCon.append("<h5> What would you like to do? </h5>");
 
-            // This row is for buttons.
 
+            // This section goes in the row for the buttons
+
+            // Create four columns, one for each button
             var buttonCol1 = $("<div class='col m5 offset-m1 center-align'>");
-
             var buttonCol2 = $("<div class='col m5 center-align'>");
-
             var buttonCol3 = $("<div class='col m5 offset-m1 center-align'>");
-
             var buttonCol4 = $("<div class='col m5 center-align'>");
-                  
+               
+            // Append the buttons to the appropriate rows
             buttonRow.append(buttonCol1).append(buttonCol2)
-            
             buttonRow2.append(buttonCol3).append(buttonCol4);
                 
-                buttonCol1.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Hiking </button>");
 
-                buttonCol2.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Mountain Biking </button>");
+                // Create the button shell
+                var buttonOpen = "<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'>"
+
+                // Add the buttons themselves & add the correct labels
+                buttonCol1.append(buttonOpen + "Hiking </button>");
+
+                buttonCol2.append(buttonOpen + "Mountain Biking </button>");
                 
-                buttonCol3.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Camping </button>");
+                buttonCol3.append(buttonOpen + "Camping </button>");
 
-                buttonCol4.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Visit a park </button>");
+                buttonCol4.append(buttonOpen + "Visit a park </button>");
 
-            // This for the map and content.
+
+
+            // This section goes in the the map row
             
-            var mapCol = $("<div class='col m6'>");
 
+            // Create a column to house the map
+            var mapCol = $("<div class='col m7'>");
+
+                // append it to the row
                 mapRow.append(mapCol);
 
-            var mapCard = $("<div class='card'>");
+                // Identify the API key for the map
+                var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
+    
+                // Append the map to the map column
+                $(mapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+                
+                // Initialize the map
+                function initMap() {
 
-                mapCol.append(mapCard);
+                    // create a more simple variable for this area using the lat and long we pulled above
+                    var myLatLng = {lat, long};
 
-            var mapCon =$("<div class='card-content'>");
+                    // Uh...
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 4,
+                    center: myLatLng
+                    });
 
-                mapCard.append(mapCon);
+                    // ?????
+                    var marker = new google.maps.Marker({
+                    position: myLatLng,
+                    map: map,
+                    title: 'Hello World!'
+                    });
+                }
 
-            var contentCol = $("<div class='col m6'>");
+
+            // create a column to house the dynamic content
+            var contentCol = $("<div class='col m5'>");
             
+                // append to the appropriate row
                 mapRow.append(contentCol);
 
-            var contentCard =$("<div class='card-content'>");
+            // create the card 
+            var contentCard =$("<div class='card'>");
 
+                // append the card to the column
                 contentCol.append(contentCard);
+
+            // create the card content
+            var contentCon =$("<div class='card-content'>");
+
+                // append the content to the card
+                contentCard.append(contentCon);
 
                 
             
@@ -243,32 +277,7 @@ $("#user").on("click", function() {
             console.log(response2);
         });
  
-    // Google maps
-    var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
 
-
-    var gmapCol = $("<div class='col s10'>");
-    
-    $(gmapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
-    
-    $(mapRow).append(gmapCol);
-    // (".container").append(mapRow);
-
-    function initMap() {
-        var myLatLng = {lat: -25.363, lng: 131.044};
-
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: myLatLng
-        });
-
-        var marker = new google.maps.Marker({
-          position: myLatLng,
-          map: map,
-          title: 'Hello World!'
-        });
-      }
- 
     });
 
 
