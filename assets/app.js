@@ -194,31 +194,27 @@ function entireJavascript(){
                             promptCon.append("<h5> What would you like to do? </h5>");
 
 
-                    // This section goes in the row for the buttons
+                    // This section goes in the row for the buttons                       
 
-                    // Create four columns, one for each button
-                    var buttonCol1 = $("<div class='col m5 offset-m1 center-align'>");
-                    var buttonCol2 = $("<div class='col m5 center-align'>");
-                    var buttonCol3 = $("<div class='col m5 offset-m1 center-align'>");
-                    var buttonCol4 = $("<div class='col m5 center-align'>");
+                // Create four columns, one for each button
+                var buttonCol0 = $("<div class='col m5 offset-m1 center-align'>");
+                var buttonCol1 = $("<div class='col m5 center-align'>");
+                var buttonCol2 = $("<div class='col m5 offset-m1 center-align'>");
+                var buttonCol3 = $("<div class='col m5 center-align'>");
+                
+                // Append the buttons to the appropriate rows
+                buttonRow.append(buttonCol0).append(buttonCol1);
+                buttonRow2.append(buttonCol2).append(buttonCol3);
+
+
+                    // Add the buttons themselves & add the correct labels
+                    buttonCol0.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' value='1' style='width: 100%'>Hiking</button>");
+
+                    buttonCol1.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' value='2' style='width: 100%'>Mountain Biking</button>");
                     
-                    // Append the buttons to the appropriate rows
-                    buttonRow.append(buttonCol1).append(buttonCol2)
-                    buttonRow2.append(buttonCol3).append(buttonCol4);
-                        
+                    buttonCol2.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' value='3' style='width: 100%'>Camping</button>");
 
-                        // Create the button shell
-                        var buttonOpen = "<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'>"
-
-                        // Add the buttons themselves & add the correct labels
-                        buttonCol1.append(buttonOpen + "Hiking </button>");
-
-                        buttonCol2.append(buttonOpen + "Mountain Biking </button>");
-                        
-                        buttonCol3.append(buttonOpen + "Camping </button>");
-
-                        buttonCol4.append(buttonOpen + "Visit a park </button>");
-
+                    buttonCol3.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' value='4' style='width: 100%'>Visit a Park</button>");
 
 
                     // This section goes in the the map row
@@ -278,19 +274,86 @@ function entireJavascript(){
                         contentCard.append(contentCon);
 
 
-                    var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+//                     var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
 
-                    console.log(lat + ", " + long);
-                    console.log(queryURL3);
+//                     console.log(lat + ", " + long);
+//                     console.log(queryURL3);
 
-                    // AJAX call for Google Places API
+//                     // AJAX call for Google Places API
+//                     $.ajax({
+//                     url: queryURL3,
+//                     method: "GET"
+//                       // Once data is retrieved from API...
+//                     }).then(function(response2){
+//                         console.log(response2);
+//                     });
+
+                  
+                    // append the content to the card
+                    contentCard.append(contentCon);
+
+                    var trailApi = "https://trailapi-trailapi.p.mashape.com/";
+
+                    var trailParameters = "?limit=10&q[city_cont]="+userCity+"&radius=25";
+                
+                    var mashapeKey = "UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE"; 
+                    var h = "Accept: text/plain";
+                
+                    queryURL1 = trailApi + trailParameters;
+                
+                
                     $.ajax({
-                    url: queryURL3,
-                    method: "GET"
+                      url: queryURL1,
+                      method: "GET",
+                      headers: {
+                        "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
+                        "Accept": "text/plain"
+                      }
+                    }).then(function(response3) {
+                      console.log(response3);
+                
+                    var cityName = response3.places[1].city;
+                    var siteName = response3.places[1].name;
+                    var lat = response3.places[1].lat;
+                    var long = response3.places[1].lon;
 
-                    // Once data is retrieved from API...
-                    }).then(function(response2){
-                        console.log(response2);
+                    for (var i = 0; i < response3.places.length; i++ ){
+                       var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+                       $(contentCon).append(trailbutton);
+                       console.log(i)
+
+                    };
+                                
+                    $(".trail-btn").on("click", function(){
+                        var index = $(this).attr("value");
+                        console.log("hi");
+                        console.log(index);
+                        var infoArea = $("<div class='card'>");
+                        var table = $("<table>");
+                        var tr1 = $("<tr>");
+                        var tableHead = $("<th>");
+                        var tr2 = $("<tr>");
+                        var tableBody = $("<td>")
+                        tableHead.text(response3.places[index].name);
+                        tableBody.text(response3.places[index].description);
+                        table.append(tr1);
+                        table.append(tr2);
+                        tr1.append(tableHead);
+                        tr2.append(tableBody);
+                        infoArea.append(table);
+                        // infoArea.text(response3.places[index].description);
+                        (mapCol).append(infoArea);
+                    })
+                    console.log(cityName);
+                    console.log(siteName);
+                    console.log(lat);
+                    console.log(long)
+                     
+                    // id 2 is hiking
+                    // id 5 is mountain biking 
+                    // id 6 is camping
+                    // id 7 is caving
+                      
                     });
             }
         });
@@ -299,64 +362,7 @@ function entireJavascript(){
 
 
 
-      // testing google places API
-
-    //   var queryURL3 = "https://cors-anywhere.herokuapp.com/maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
-
-
-    //   console.log(lat + ", " + long);
-    //   console.log(queryURL3);
-
-    //   // AJAX call for Google Places API
-    //   $.ajax({
-    //   url: queryURL3,
-    //   method: "GET"
-
-
-    //   // Once data is retrieved from API...
-    //   }).then(function(response2){
-    //       console.log(response2);
-    //   });
-
-
-// CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
-    
-    // var trailApi = "https://trailapi-trailapi.p.mashape.com/";
-
-    // var trailParameters = "?limit=10&q[city_cont]="+usercity+"&radius=25";
-
-    // var mashapeKey = "UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE"; 
-    // var h = "Accept: text/plain";
-
-    // queryURL1 = trailApi + trailParameters;
-
-
-    // $.ajax({
-    //   url: queryURL1,
-    //   method: "GET",
-    //   headers: {
-    //     "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
-    //     "Accept": "text/plain"
-    //   }
-    // }).then(function(response) {
-    //   console.log(response);
-    //   console.log("my mom does not love me");
-
-    // var cityName = response.places[1].city;
-    // var siteName = response.places[1].name;
-    // var lat = response.places[1].lat;
-    // var long = response.places[1].lon;
 
 
 
-    // console.log(cityName);
-    // console.log(siteName);
-    // console.log(lat);
-    // console.log(long)
-     
-    // id 2 is hiking
-    // id 5 is mountain biking 
-    // id 6 is camping
-    // id 7 is caving
-      
-    // });
+
