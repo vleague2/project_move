@@ -19,7 +19,7 @@ function entireJavascript(){
 
         // This is the back button
         var backbutton = $( "<li>");
-        var backbuttonLink = $("<a href='index.html'>Home</a>")
+        var backbuttonLink = $("<a href='index.html'>Back to Search</a>")
         backbutton.append(backbuttonLink);
         $("#nav-mobile").append(backbutton);
 
