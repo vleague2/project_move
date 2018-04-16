@@ -241,57 +241,32 @@ $("#user").on("click", function() {
                 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                
-            // testing google places API
-
-            var lat = response.city.coord.lat;
-
-            var long = response.city.coord.lon;
-
-            var queryURL3 = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
-
-            console.log(lat + ", " + long);
-            console.log(queryURL3);
-
-            // AJAX call for Google Places API
-            $.ajax({
-            url: queryURL3,
-            method: "GET"
-
-            // Once data is retrieved from API...
-            }).then(function(response2){
-                console.log(response2);
-            });
-    
-
         });
-
     }
-
 })
 
 
 
-   
+      // testing google places API
+
+    //   var lat = response.city.coord.lat;
+
+    //   var long = response.city.coord.lon;
+
+    //   var queryURL3 = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+
+    //   console.log(lat + ", " + long);
+    //   console.log(queryURL3);
+
+    //   // AJAX call for Google Places API
+    //   $.ajax({
+    //   url: queryURL3,
+    //   method: "GET"
+
+    //   // Once data is retrieved from API...
+    //   }).then(function(response2){
+    //       console.log(response2);
+    //   });
 
 // CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
     
