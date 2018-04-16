@@ -1,3 +1,17 @@
+ // Initialize Firebase
+ var config = {
+     apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
+     authDomain: "project-move-1523543773098.firebaseapp.com",
+     databaseURL: "https://project-move-1523543773098.firebaseio.com",
+     projectId: "project-move-1523543773098",
+     storageBucket: "",
+     messagingSenderId: "101064034892"
+ };
+
+ firebase.initializeApp(config);
+
+ var database = firebase.database();
+
 // When the user clicks the search button
 $("#user").on("click", function() {
     
@@ -7,12 +21,18 @@ entireJavascript();
 function entireJavascript(){
     var userCity = $("#usercity").val().trim();
         console.log(userCity);
+
+        
     
     if (userCity.length < 3) {
         $("#searchInput").append("<span class='helper-text'>Please enter a city name.</span>")
     }
 
     else {
+        database.ref().push({
+            City: userCity,
+        });
+        
         // hide the current content in search-content
         $(".search-content").css('display', 'none');
 
