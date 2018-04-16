@@ -272,7 +272,7 @@ function entireJavascript(){
 
                         // append the content to the card
                         contentCard.append(contentCon);
-
+                        
                   
                     // append the content to the card
                     contentCard.append(contentCon);
