@@ -1,12 +1,20 @@
 // When the user clicks the search button
 $("#user").on("click", function() {
-
+    
+entireJavascript();
     // Pull the value from the search form
+function entireJavascript(){
     var userCity = $("#usercity").val().trim();
         console.log(userCity);
 
     // hide the current content in search-content
     $(".search-content").css('display', 'none');
+
+    // This is the back button
+    var backbutton = $( "<li>");
+    var backbuttonLink = $("<a href='index.html'>Home</a>")
+    backbutton.append(backbuttonLink);
+    $("#nav-mobile").append(backbutton);
 
     // Starting the API info for the Weather API
 
@@ -148,15 +156,18 @@ $("#user").on("click", function() {
         });
  
     // Google maps
-    var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
+    var gmapAPIkeyembed = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
 
 
-    var gmapCol = $("<div class='col s10'>");
+    var gmapColembed = $("<div class='col s10'>");
+
     
-    $(gmapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
     
-    $(mapRow).append(gmapCol);
-    // (".container").append(mapRow);
+    $(gmapColembed).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkeyembed + "&q=" + userCity + "' allowfullscreen></iframe>");
+    
+    $(mapRow).append(gmapColembed);
+
+    var gmapAPIkeyjava = "AIzaSyDxiikOxgUYD9m5nLLnMzbjDlOuxD4Vh5U";
 
     function initMap() {
         var myLatLng = {lat: -25.363, lng: 131.044};
@@ -176,8 +187,9 @@ $("#user").on("click", function() {
     });
 
 
-
+    }
 })
+
 
 
 
