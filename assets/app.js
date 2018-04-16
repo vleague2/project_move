@@ -231,11 +231,17 @@ function entireJavascript(){
                         
                         buttonCol2.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='camping' style='width: 100%'>Camping</button>");
 
-                        buttonCol3.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='4' style='width: 100%'>Visit a Park</button>");
+                        buttonCol3.append("<button class='waves-effect waves-light btn-large card-color places-btn' value='4' style='width: 100%'>Visit a Park</button>");
+
 
                         $(".activity-btn").on("click", function(){
 
                             contentCon.empty();
+
+                            var contentTitle = $("<span class='card-title'>");
+
+                            contentCon.append(contentTitle);
+                            contentTitle.text("Activity Options");
 
                             var active = $(this).attr("value");
                             console.log(active);
@@ -265,13 +271,11 @@ function entireJavascript(){
                                 for (var i = 0; i < response3.places.length; i++ ){
                                         var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
                                         $(contentCon).append(trailbutton);
-                                        console.log(i)
 
                                 };
                                     
                             $(".trail-btn").on("click", function(){
                                 var index = $(this).attr("value");
-                                console.log("hi");
                                 var infoArea = $("<div class='card'>");
                                 var table = $("<table>");
                                 var tr1 = $("<tr>");
@@ -286,9 +290,7 @@ function entireJavascript(){
 
                                 else {
                                     tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
-                                }
-
-                               
+                                }                               
 
                                 table.append(tr1);
                                 table.append(tr2);
@@ -296,20 +298,75 @@ function entireJavascript(){
                                 tr2.append(tableBody);
                                 infoArea.append(table);
                                 (mapCol).append(infoArea);
-                            })
-                        console.log(cityName);
-                        console.log(siteName);
-                        console.log(lat);
-                        console.log(long);
-                        
+                            });
+                        });
+                    })
                         // id 2 is hiking
                         // id 5 is mountain biking 
                         // id 6 is camping
                         // id 7 is caving
                       
-                            });
-                        })
 
+
+                        $(".places-btn").on("click", function(){
+                            
+                            contentCon.empty();
+
+                            var contentTitle = $("<span class='card-title'>");
+
+                            contentCon.append(contentTitle);
+                            contentTitle.text("Activity Options");
+
+                            var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+
+                            console.log(lat + ", " + long);
+                            console.log(queryURL3);
+
+                            // AJAX call for Google Places API
+                            $.ajax({
+                            url: queryURL3,
+                            method: "GET",
+
+                                error: function(response4, error) {
+                                    console.log(error);
+                                    var errText = $("<p>");
+                                    contentCon.append(errText);
+                                    errText.text("Sorry, no options match that activity in this area.");
+                                },
+                
+                                // Once data is retrieved from API...
+                                success: function(response4) {
+                                    console.log(response4);
+
+                                    for (var i = 0; i < 10; i++ ){
+                                        var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response4.results[i].name + "</button>";
+                                        $(contentCon).append(trailbutton);
+                                    };
+
+                                    $(".trail-btn").on("click", function(){
+                                        var index = $(this).attr("value");
+                                        var infoArea = $("<div class='card'>");
+                                        var table = $("<table>");
+                                        var tr1 = $("<tr>");
+                                        var tableHead = $("<th id='activity-name'>");
+                                        var tr2 = $("<tr>");
+                                        var tableBody = $("<td id='activity-descr'>");
+                                        tableHead.text(response4.results[index].name);
+        
+                                        
+                                        tableBody.html("Address: " + response4.results[index].formatted_address + "<br> Rating: " + response4.results[index].rating + "/5" )
+                                                                     
+        
+                                        table.append(tr1);
+                                        table.append(tr2);
+                                        tr1.append(tableHead);
+                                        tr2.append(tableBody);
+                                        infoArea.append(table);
+                                        (mapCol).append(infoArea);
+                                    });
+                                }
+                            });
+                        });
                 
 
 
@@ -348,56 +405,33 @@ function entireJavascript(){
                                 });
                             }
 
-
-
-                        // create a column to house the dynamic content
-                        var contentCol = $("<div class='col m5'>");
+                         // create a column to house the dynamic content
+                         var contentCol = $("<div class='col m5'>");
                         
-                            // append to the appropriate row
-                            mapRow.append(contentCol);
+                         // append to the appropriate row
+                         mapRow.append(contentCol);
 
-                        // create the card 
-                        var contentCard =$("<div class='card'>");
+                            // create the card 
+                            var contentCard =$("<div class='card'>");
 
-                            // append the card to the column
-                            contentCol.append(contentCard);
+                                // append the card to the column
+                                contentCol.append(contentCard);
 
 
-                        // create the card content
-                        var contentCon =$("<div class='card-content'>");
+                                // create the card content
+                                var contentCon =$("<div class='card-content'>");
 
-                            // append the content to the card
-                            contentCard.append(contentCon);
+                                    // append the content to the card
+                                    contentCard.append(contentCon);
+
+
+                       
             }
         });
     };
 };
 
-
-
-
-      // testing google places API
-
-    //   var lat = response.city.coord.lat;
-
-    //   var long = response.city.coord.lon;
-
-    //   var queryURL3 = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
-
-
-    //   console.log(lat + ", " + long);
-    //   console.log(queryURL3);
-
-    //   // AJAX call for Google Places API
-    //   $.ajax({
-    //   url: queryURL3,
-    //   method: "GET"
-
-
-    //   // Once data is retrieved from API...
-    //   }).then(function(response2){
-    //       console.log(response2);
-    //   });
+    
 
 
 
