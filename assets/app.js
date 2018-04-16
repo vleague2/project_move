@@ -1,7 +1,9 @@
 // When the user clicks the search button
 $("#user").on("click", function() {
-
+    
+entireJavascript();
     // Pull the value from the search form
+function entireJavascript(){
     var userCity = $("#usercity").val().trim();
         console.log(userCity);
     
@@ -13,7 +15,14 @@ $("#user").on("click", function() {
         // hide the current content in search-content
         $(".search-content").css('display', 'none');
 
-        // Starting the API info for the Weather API
+
+    // This is the back button
+    var backbutton = $( "<li>");
+    var backbuttonLink = $("<a href='index.html'>Home</a>")
+    backbutton.append(backbuttonLink);
+    $("#nav-mobile").append(backbutton);
+
+    // Starting the API info for the Weather API
 
         // query parameter
         var openWeatherparam = "&q="+userCity
@@ -218,6 +227,7 @@ $("#user").on("click", function() {
                     }
 
 
+
                 // create a column to house the dynamic content
                 var contentCol = $("<div class='col m5'>");
                 
@@ -229,6 +239,7 @@ $("#user").on("click", function() {
 
                     // append the card to the column
                     contentCol.append(contentCard);
+
 
                 // create the card content
                 var contentCon =$("<div class='card-content'>");
@@ -255,6 +266,7 @@ $("#user").on("click", function() {
 
     //   var queryURL3 = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
 
+
     //   console.log(lat + ", " + long);
     //   console.log(queryURL3);
 
@@ -263,10 +275,12 @@ $("#user").on("click", function() {
     //   url: queryURL3,
     //   method: "GET"
 
+
     //   // Once data is retrieved from API...
     //   }).then(function(response2){
     //       console.log(response2);
     //   });
+
 
 // CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
     
