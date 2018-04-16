@@ -188,6 +188,15 @@ textarea.materialize-textarea:focus:not([readonly]) {
     nav .brand-logo {
         left: 25%;
     }
+
+    .activity-btns {
+        width: 100%;
+    }
+
+    .btn-hiking-camping {
+        margin-bottom: 20px;
+    }
 }
+
 
 

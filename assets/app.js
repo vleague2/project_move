@@ -1,20 +1,93 @@
+ // Initialize Firebase
+ var config = {
+     apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
+     authDomain: "project-move-1523543773098.firebaseapp.com",
+     databaseURL: "https://project-move-1523543773098.firebaseio.com",
+     projectId: "project-move-1523543773098",
+     storageBucket: "",
+     messagingSenderId: "101064034892"
+ };
+
+ firebase.initializeApp(config);
+
+ var database = firebase.database();
+
+ var citiesArray =[];
+
 // When the user clicks the search button
 $("#user").on("click", function() {
-    
-entireJavascript();
+    entireJavascript();
 });
+
+$("#usercity").keyup(function(event) {
+    if (event.keyCode === 13) {
+        entireJavascript();
+    }
+});
+
+// All of the code!!!!! Lol
+function entireJavascript(){
+   
+
     // Pull the value from the search form
 function entireJavascript(){
     var userCity = $("#usercity").val().trim();
-        console.log(userCity);
-    
-    if (userCity.length < 3) {
-        $("#searchInput").append("<span class='helper-text'>Please enter a city name.</span>")
-    }
 
-    else {
-        // hide the current content in search-content
-        $(".search-content").css('display', 'none');
+        userCity = userCity.toLowerCase();
+        console.log("userCity: " + userCity);
+  
+        // input validation!
+        if (userCity.length < 3) {
+            $(".helper-text").text("Please enter a city name.")
+        }
+
+        else {
+
+            // Starting the API info for the Weather API
+        
+            // query parameter
+            var openWeatherparam = "&q="+userCity
+
+            // putting it all together in a queryURL
+            var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
+             
+            // AJAX call for Open Weather API
+            $.ajax({
+                url: queryURL2,
+                method: "GET",
+
+                // If we receive an error message...
+                error: function(response, error) {
+                    console.log(error);
+                    $(".helper-text").text("Please enter a valid city.");
+                },
+
+                // Once data is retrieved from API...
+                success: function(response) {
+                    console.log(response);
+
+                    citiesArray.push(
+                        userCity
+                    ),
+                        console.log(citiesArray);
+
+                    database.ref().push({
+                        City: userCity,
+                    });
+
+                // hide the current content in search-content
+                $(".search-content").css('display', 'none');
+
+                // This is the back button so they can search again
+                var backbutton = $( "<li>");
+                var backbuttonLink = $("<a href='index.html'>Back to Search</a>")
+                backbutton.append(backbuttonLink);
+                $("#nav-mobile").append(backbutton);
+                
+                // Pull the current weather and store in a variable
+                var nowWeather = response.list["0"].weather["0"].main;
+                    console.log(nowWeather);
+
 
 
         // This is the back button
@@ -168,10 +241,10 @@ function entireJavascript(){
                 // This section goes in the row for the buttons
 
                 // Create four columns, one for each button
-                var buttonCol0 = $("<div class='col m5 offset-m1 center-align'>");
-                var buttonCol1 = $("<div class='col m5 center-align'>");
-                var buttonCol2 = $("<div class='col m5 offset-m1 center-align'>");
-                var buttonCol3 = $("<div class='col m5 center-align'>");
+                var buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+                var buttonCol1 = $("<div class='activity-btns col m5 center-align'>");
+                var buttonCol2 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+                var buttonCol3 = $("<div class='activity-btns col m5 center-align'>");
                 
                 // Append the buttons to the appropriate rows
                 buttonRow.append(buttonCol0).append(buttonCol1);
@@ -191,7 +264,7 @@ function entireJavascript(){
                         var active = $(this).attr("value");
                         console.log(active);
                         
-                        var trailApi = "https://trailapi-trailapi.p.mashape.com/";
+                        var trailApi = "https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/";
 
                         var trailParameters = "?limit=10&q[activities_activity_type_name_eq]="+active+"&q[city_cont]="+userCity+"&radius=25";
                 
@@ -261,7 +334,7 @@ function entireJavascript(){
                 
 
                 // Create a column to house the map
-                var mapCol = $("<div class='col m7'>");
+                var mapCol = $("<div class='col m7' id='map'>");
 
                     // append it to the row
                     mapRow.append(mapCol);
@@ -270,7 +343,7 @@ function entireJavascript(){
                     var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
         
                     // Append the map to the map column
-                    $(mapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+                    $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
                     
                     // Initialize the map
                     function initMap() {
@@ -344,8 +417,4 @@ function entireJavascript(){
     //   });
 
 
-// CODE FOR OTHER THINGS~~~~~~~~~~~~~~~~~~~~~~~
-    
 
-
-    
