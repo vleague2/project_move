@@ -12,6 +12,8 @@
 
  var database = firebase.database();
 
+ var citiesArray =[];
+
 // When the user clicks the search button
 $("#user").on("click", function() {
     
@@ -21,11 +23,12 @@ entireJavascript();
 
 // All of the code!!!!! Lol
 function entireJavascript(){
-
+   
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
-        console.log(userCity);
-
+       
+        userCity = userCity.toLowerCase();
+        console.log("userCity: " + userCity);
         // input validation!
         if (userCity.length < 3) {
             $("#searchInput").append("<span class='helper-text'>Please enter a city name.</span>")
@@ -34,11 +37,7 @@ function entireJavascript(){
         else {
 
             // Starting the API info for the Weather API
-
-            //Store user city in Firebase
-            database.ref().push({
-               City: userCity,
-            });
+        
             // query parameter
             var openWeatherparam = "&q="+userCity
 
@@ -59,6 +58,15 @@ function entireJavascript(){
                 // Once data is retrieved from API...
                 success: function(response) {
                     console.log(response);
+
+                    citiesArray.push(
+                        userCity
+                    ),
+                        console.log(citiesArray);
+
+                    database.ref().push({
+                        City: userCity,
+                    });
 
                 // hide the current content in search-content
                 $(".search-content").css('display', 'none');
@@ -360,6 +368,7 @@ function entireJavascript(){
 //                     }).then(function(response2){
 //                         console.log(response2);
 //                     });
+
 
 
 
