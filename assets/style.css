@@ -150,4 +150,20 @@ textarea.materialize-textarea:focus:not([readonly]) {
   -webkit-box-shadow: 0 1px 0 0 #fff;
           box-shadow: 0 1px 0 0 transparent;
           text-align: left;
+
+ #dynamic-container {
+    /* background-color: hsla(167, 50%, 40%, 0.5);
+    transition: background-color linear 1s; */
+    background-color: rgba(26, 25, 25, 0.7);
+    height: 100%;
+    padding-left: 30px;
+    padding-right: 30px;
+ }
+
+.weatherCard {
+    background-size: cover;
+}
+
+.helper-text {
+    color: white;
 }
