@@ -197,10 +197,10 @@ function entireJavascript(){
                     // This section goes in the row for the buttons                       
 
                 // Create four columns, one for each button
-                var buttonCol0 = $("<div class='col m5 offset-m1 center-align'>");
-                var buttonCol1 = $("<div class='col m5 center-align'>");
-                var buttonCol2 = $("<div class='col m5 offset-m1 center-align'>");
-                var buttonCol3 = $("<div class='col m5 center-align'>");
+                var buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+                var buttonCol1 = $("<div class='activity-btns col m5 center-align'>");
+                var buttonCol2 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+                var buttonCol3 = $("<div class='activity-btns col m5 center-align'>");
                 
                 // Append the buttons to the appropriate rows
                 buttonRow.append(buttonCol0).append(buttonCol1);
