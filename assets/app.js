@@ -221,7 +221,7 @@ function entireJavascript(){
                     
 
                     // Create a column to house the map
-                    var mapCol = $("<div class='col m7'>");
+                    var mapCol = $("<div class='col m7' id='map'>");
 
                         // append it to the row
                         mapRow.append(mapCol);
