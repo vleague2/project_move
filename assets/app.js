@@ -2,6 +2,7 @@
 $("#user").on("click", function() {
     
 entireJavascript();
+});
     // Pull the value from the search form
 function entireJavascript(){
     var userCity = $("#usercity").val().trim();
@@ -16,13 +17,13 @@ function entireJavascript(){
         $(".search-content").css('display', 'none');
 
 
-    // This is the back button
-    var backbutton = $( "<li>");
-    var backbuttonLink = $("<a href='index.html'>Home</a>")
-    backbutton.append(backbuttonLink);
-    $("#nav-mobile").append(backbutton);
+        // This is the back button
+        var backbutton = $( "<li>");
+        var backbuttonLink = $("<a href='index.html'>Home</a>")
+        backbutton.append(backbuttonLink);
+        $("#nav-mobile").append(backbutton);
 
-    // Starting the API info for the Weather API
+        // Starting the API info for the Weather API
 
         // query parameter
         var openWeatherparam = "&q="+userCity
@@ -246,15 +247,9 @@ function entireJavascript(){
 
                     // append the content to the card
                     contentCard.append(contentCon);
-
-                    
-                
-                
-
-
         });
-    }
-})
+    };
+};
 
 
 
