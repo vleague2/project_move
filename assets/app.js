@@ -26,7 +26,7 @@ function entireJavascript(){
 
             // putting it all together in a queryURL
             var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
-            
+             
             // AJAX call for Open Weather API
             $.ajax({
                 url: queryURL2,
