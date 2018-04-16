@@ -230,7 +230,7 @@ function entireJavascript(){
                         var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
             
                         // Append the map to the map column
-                        $(mapCol).append("<iframe width='500' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+                        $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
                         
                         // Initialize the map
                         function initMap() {
@@ -272,27 +272,12 @@ function entireJavascript(){
 
                         // append the content to the card
                         contentCard.append(contentCon);
-
-
-//                     var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
-
-//                     console.log(lat + ", " + long);
-//                     console.log(queryURL3);
-
-//                     // AJAX call for Google Places API
-//                     $.ajax({
-//                     url: queryURL3,
-//                     method: "GET"
-//                       // Once data is retrieved from API...
-//                     }).then(function(response2){
-//                         console.log(response2);
-//                     });
-
+                        
                   
                     // append the content to the card
                     contentCard.append(contentCon);
 
-                    var trailApi = "https://trailapi-trailapi.p.mashape.com/";
+                    var trailApi = "https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/";
 
                     var trailParameters = "?limit=10&q[city_cont]="+userCity+"&radius=25";
                 
@@ -362,7 +347,19 @@ function entireJavascript(){
 
 
 
+//                     var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
 
+//                     console.log(lat + ", " + long);
+//                     console.log(queryURL3);
+
+//                     // AJAX call for Google Places API
+//                     $.ajax({
+//                     url: queryURL3,
+//                     method: "GET"
+//                       // Once data is retrieved from API...
+//                     }).then(function(response2){
+//                         console.log(response2);
+//                     });
 
 
 
