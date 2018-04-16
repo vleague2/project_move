@@ -96,7 +96,7 @@ body {
       padding: 60px;
       /* box-shadow: 20px 20px 50px 15px black; */
   }
-
+  
   .search-btn {
       margin-top: 20px;
   }
@@ -180,3 +180,4 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .helper-text {
     color: white;
 }
+
