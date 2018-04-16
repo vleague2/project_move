@@ -132,3 +132,7 @@ body {
 .weatherCard {
     background-size: cover;
 }
+
+.helper-text {
+    color: white;
+}
