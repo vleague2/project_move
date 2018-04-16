@@ -60,15 +60,27 @@ body {
       color: #86ac41;
   }
 
+  .footer {
+      z-index: 1;
+  }
+
   .header ,
   .footer {
     box-shadow: 0px 0px 8px 2px #000000;
   }
 
+  /* Home button */
+  
+  #nav-mobile {
+      background-color: #86ac41;
+      height: 100px;
+      padding-top: 17px;
+  }
+
   /* Logo */
 
   .logo {
-      width: 12%;
+      width: 190px;
   }
 
   /* Search section */
@@ -84,7 +96,7 @@ body {
       padding: 60px;
       /* box-shadow: 20px 20px 50px 15px black; */
   }
-
+  
   .search-btn {
       margin-top: 20px;
   }
@@ -113,21 +125,21 @@ body {
   .input input[type=text]{
     color: white;
     border-bottom: 1px solid white;
-    box-shadow: 0 1px 0 0 #000;
+    text-align: left;
   }
 
   #label {
       color: white;
   }
   
-  .validate {
+  /* .validate {
     border-bottom: 1px solid white;
     box-shadow: 0 1px 0 0 #000;
-  }
+  } */
 
-input.active {
+/* input.active {
       border-bottom: #fff;
-  }
+  } */
 
 .input:focus {
     color: #fff;
@@ -168,3 +180,4 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .helper-text {
     color: white;
 }
+
