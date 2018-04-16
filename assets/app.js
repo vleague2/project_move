@@ -68,7 +68,7 @@ $("#user").on("click", function() {
             // WEATHER SECTION
             
             // column for Weather
-            var weatherCol2 = $("<div class='col m10 offset-m1' style='margin-top: 60px'>");
+            var weatherCol2 = $("<div class='col m12' style='margin-top: 60px'>");
 
             // append!
             weatherRow.append(weatherCol2);
@@ -129,7 +129,7 @@ $("#user").on("click", function() {
             // This section goes in the row for the prompt
 
             // Column for the prompt
-            var promptCol =$("<div class='col m10 center-align offset-m1'>");
+            var promptCol =$("<div class='col m10 offset-m1 center-align'>");
 
             // Append to the appropriate row
             promptRow.append(promptCol);
