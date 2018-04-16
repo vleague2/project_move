@@ -18,14 +18,7 @@ off white {
     #fffffa
 }; */
 
-/* this is the source image and background resizing.
-/* img{
-    background: url(assets/images/waterfall.jpg)
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: auto;
-<img src="assets/images/waterfall.jpg" alt="">
-} */
+
 
 /* Sticky Footer */
 
@@ -181,6 +174,18 @@ textarea.materialize-textarea:focus:not([readonly]) {
     color: white;
 }
 
+.trail-btn {
+    margin-bottom: 15px;
+    background-color: #7da3a1;
+}
+
+.trail-btn:focus {
+    background-color: #0d1d23; 
+}
+
+#activity-name, #activity-descr {
+    padding-left: 20px;
+}
 
 /* Media Queries */
 

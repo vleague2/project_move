@@ -234,15 +234,15 @@ function entireJavascript(){
                         buttonCol3.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='4' style='width: 100%'>Visit a Park</button>");
 
                         $(".activity-btn").on("click", function(){
+
+                            contentCon.empty();
+
                             var active = $(this).attr("value");
                             console.log(active);
                             
                             var trailApi = "https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/";
 
                             var trailParameters = "?limit=10&q[activities_activity_type_name_eq]="+active+"&q[city_cont]="+userCity+"&radius=25";
-                    
-                            var mashapeKey = "UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE"; 
-                            var h = "Accept: text/plain";
                     
                             queryURL1 = trailApi + trailParameters;
                     
@@ -275,11 +275,21 @@ function entireJavascript(){
                                 var infoArea = $("<div class='card'>");
                                 var table = $("<table>");
                                 var tr1 = $("<tr>");
-                                var tableHead = $("<th>");
+                                var tableHead = $("<th id='activity-name'>");
                                 var tr2 = $("<tr>");
-                                var tableBody = $("<td>");
+                                var tableBody = $("<td id='activity-descr'>");
                                 tableHead.text(response3.places[index].name);
-                                tableBody.text(response3.places[index].description);
+
+                                if (response3.places[index].activities["0"].description == null) {
+                                    tableBody.html("<em> Sorry, this location does not have a description. </em>")
+                                }
+
+                                else {
+                                    tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
+                                }
+
+                               
+
                                 table.append(tr1);
                                 table.append(tr2);
                                 tr1.append(tableHead);
