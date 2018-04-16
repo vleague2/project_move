@@ -40,7 +40,7 @@ $("#user").on("click", function() {
         
         // Setting up the dynamically-generated divs for the page!
 
-        var container = $("<div class='container'>");
+        var container = $("<div class='container' id='dynamic-container'>");
 
         $("main").append(container);
 
@@ -51,10 +51,12 @@ $("#user").on("click", function() {
 
         var buttonRow = $("<div class='row'>");
 
-        var mapRow = $("<div class='row'>")
+        var buttonRow2 = $("<div class='row'>")
+
+        var mapRow = $("<div class='row'>");
 
         // append all rows to the container
-        container.append(weatherRow).append(promptRow).append(buttonRow).append(mapRow);
+        container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(mapRow);
 
 
             // WEATHER SECTION
@@ -128,39 +130,41 @@ $("#user").on("click", function() {
                                 newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
                             }
             // This is prompt text.
-            var promptCol =$("<div class='col m10 center-align offset-m1'>");
+            var promptCol =$("<div class='col s10 center-align offset-m1'>");
 
-                promptRow.append(promptCol);
+            promptRow.append(promptCol);
                 
-            var promptCard =$("<div class='card'>");
-                
+                var promptCard =$("<div class='card'>");
+                    
                 promptCol.append(promptCard);
                 
-            var promptCon = $("<div class='card-content'>");
+                    var promptCon = $("<div class='card-content'>");
 
-                promptCard.append(promptCon);
-                
-                promptCon.append("<h5> What would you like to do? </h5>");
+                    promptCard.append(promptCon);
+                        
+                    promptCon.append("<h5> What would you like to do? </h5>");
 
             // This row is for buttons.
+
+            var buttonCol1 = $("<div class='col m5 offset-m1 center-align'>");
+
+            var buttonCol2 = $("<div class='col m5 center-align'>");
+
+            var buttonCol3 = $("<div class='col m5 offset-m1 center-align'>");
+
+            var buttonCol4 = $("<div class='col m5 center-align'>");
+                  
+            buttonRow.append(buttonCol1).append(buttonCol2)
+            
+            buttonRow2.append(buttonCol3).append(buttonCol4);
                 
-                var buttonCol1 = $("<div class='col m3 center-align'>");
+                buttonCol1.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Hiking </button>");
 
-                var buttonCol2 = $("<div class='col m3 center-align'>");
+                buttonCol2.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Mountain Biking </button>");
+                
+                buttonCol3.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Camping </button>");
 
-                var buttonCol3 = $("<div class='col m3 center-align'>");
-
-                var buttonCol4 = $("<div class='col m3 center-align'>");
-                  
-                  buttonRow.append(buttonCol1).append(buttonCol2).append(buttonCol3).append(buttonCol4);
-                  
-                   buttonCol1.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Water </button>");
-
-                   buttonCol2.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Trails </button>");
-                   
-                   buttonCol3.append("<button class='waves-effect waves-light btn-large' style='width: 75%%'> Camping </button>");
-
-                   buttonCol4.append("<button class='waves-effect waves-light btn-large' style='width: 75%'> Visit a park </button>");
+                buttonCol4.append("<button class='waves-effect waves-light btn-large card-color' id='activity-btn' style='width: 100%'> Visit a park </button>");
 
             // This for the map and content.
             
@@ -301,6 +305,10 @@ $("#user").on("click", function() {
     // console.log(lat);
     // console.log(long)
      
+    // id 2 is hiking
+    // id 5 is mountain biking 
+    // id 6 is camping
+    // id 7 is caving
       
     // });
 
