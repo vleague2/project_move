@@ -16,8 +16,7 @@
 
 // When the user clicks the search button
 $("#user").on("click", function() {
-    
-entireJavascript();
+    entireJavascript();
 });
 
 
@@ -31,7 +30,7 @@ function entireJavascript(){
         console.log("userCity: " + userCity);
         // input validation!
         if (userCity.length < 3) {
-            $("#searchInput").append("<span class='helper-text'>Please enter a city name.</span>")
+            $(".helper-text").text("Please enter a city name.")
         }
 
         else {
@@ -52,7 +51,7 @@ function entireJavascript(){
                 // If we receive an error message...
                 error: function(response, error) {
                     console.log(error);
-                    $("#searchInput").append("<span class='helper-text'>Please enter a valid city.</span>")
+                    $(".helper-text").text("Please enter a valid city.");
                 },
 
                 // Once data is retrieved from API...
