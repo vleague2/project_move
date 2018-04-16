@@ -257,10 +257,10 @@ function entireJavascript(){
                                 }).then(function(response3) {
                                 console.log(response3);
                     
-                                var cityName = response3.places[1].city;
-                                var siteName = response3.places[1].name;
-                                var lat = response3.places[1].lat;
-                                var long = response3.places[1].lon;
+                                // var cityName = response3.places[1].city;
+                                // var siteName = response3.places[1].name;
+                                // var lat = response3.places[1].lat;
+                                // var long = response3.places[1].lon;
 
                                 for (var i = 0; i < response3.places.length; i++ ){
                                         var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
@@ -297,10 +297,10 @@ function entireJavascript(){
                                 infoArea.append(table);
                                 (mapCol).append(infoArea);
                             })
-                        console.log(cityName);
-                        console.log(siteName);
-                        console.log(lat);
-                        console.log(long);
+                        // console.log(cityName);
+                        // console.log(siteName);
+                        // console.log(lat);
+                        // console.log(long);
                         
                         // id 2 is hiking
                         // id 5 is mountain biking 
