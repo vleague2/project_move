@@ -19,6 +19,12 @@ $("#user").on("click", function() {
     entireJavascript();
 });
 
+$("#usercity").keyup(function(event) {
+    if (event.keyCode === 13) {
+        entireJavascript();
+    }
+});
+
 
 // All of the code!!!!! Lol
 function entireJavascript(){
