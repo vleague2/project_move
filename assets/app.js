@@ -1,3 +1,17 @@
+ // Initialize Firebase
+ var config = {
+     apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
+     authDomain: "project-move-1523543773098.firebaseapp.com",
+     databaseURL: "https://project-move-1523543773098.firebaseio.com",
+     projectId: "project-move-1523543773098",
+     storageBucket: "",
+     messagingSenderId: "101064034892"
+ };
+
+ firebase.initializeApp(config);
+
+ var database = firebase.database();
+
 // When the user clicks the search button
 $("#user").on("click", function() {
     
@@ -11,7 +25,7 @@ function entireJavascript(){
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
         console.log(userCity);
-    
+
         // input validation!
         if (userCity.length < 3) {
             $("#searchInput").append("<span class='helper-text'>Please enter a city name.</span>")
@@ -21,6 +35,10 @@ function entireJavascript(){
 
             // Starting the API info for the Weather API
 
+            //Store user city in Firebase
+            database.ref().push({
+               City: userCity,
+            });
             // query parameter
             var openWeatherparam = "&q="+userCity
 
@@ -45,9 +63,9 @@ function entireJavascript(){
                 // hide the current content in search-content
                 $(".search-content").css('display', 'none');
 
-                // This is the back button
+                // This is the back button so they can search again
                 var backbutton = $( "<li>");
-                var backbuttonLink = $("<a href='index.html'>Home</a>")
+                var backbuttonLink = $("<a href='index.html'>Back to Search</a>")
                 backbutton.append(backbuttonLink);
                 $("#nav-mobile").append(backbutton);
                 
