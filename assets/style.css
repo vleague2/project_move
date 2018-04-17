@@ -30,7 +30,7 @@ body {
 
   main {
     flex: 1 0 auto;
-    background-image: url("images/waterfall.dark.jpg");
+    background-image: url("images/waterfall2.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -84,7 +84,7 @@ body {
   }
   
   .search-content {
-      background-color: rgba(26, 25, 25, 0.8);
+      background-color: rgba(27, 29, 34, 0.8);
       border-radius: 10px;
       padding: 60px;
       /* box-shadow: 20px 20px 50px 15px black; */
@@ -160,7 +160,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
  #dynamic-container {
     /* background-color: hsla(167, 50%, 40%, 0.5);
     transition: background-color linear 1s; */
-    background-color: rgba(26, 25, 25, 0.7);
+    background-color: rgba(27, 29, 34, 0.7);
     height: 100%;
     padding-left: 30px;
     padding-right: 30px;

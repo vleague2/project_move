@@ -238,8 +238,6 @@ function entireJavascript(){
 
                             contentCon.empty();
 
-                            var contentTitle = $("<span class='card-title'>");
-
                             contentCon.append(contentTitle);
                             contentTitle.text("Activity Options");
 
@@ -259,40 +257,49 @@ function entireJavascript(){
                                 headers: {
                                     "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
                                     "Accept": "text/plain"
-                                }
+                                }                      
                                 }).then(function(response3) {
                                   console.log(response3);
 
-                                  for (var i = 0; i < response3.places.length; i++ ){
-                                      var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
-                                      $(contentCon).append(trailbutton);
-                                  };
+                                  if (response3.places.length < 1) {
+                                    var errText = $("<p>");
+                                    contentCon.append(errText);
+                                    errText.text("Sorry, no options match that activity in this area.");
+                                  }
+
+                                  else {
+                                    for (var i = 0; i < response3.places.length; i++ ){
+                                        var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+                                        $(contentCon).append(trailbutton);
+                                    };
                                     
-                            $(".trail-btn").on("click", function(){
-                                var index = $(this).attr("value");
-                                var infoArea = $("<div class='card'>");
-                                var table = $("<table>");
-                                var tr1 = $("<tr>");
-                                var tableHead = $("<th id='activity-name'>");
-                                var tr2 = $("<tr>");
-                                var tableBody = $("<td id='activity-descr'>");
-                                tableHead.text(response3.places[index].name);
+                                    $(".trail-btn").on("click", function(){
+                                        var index = $(this).attr("value");
+                                        infoArea.css('display', 'block');
+                                        infoArea.empty();
+                                        var table = $("<table>");
+                                        var tr1 = $("<tr>");
+                                        var tableHead = $("<th id='activity-name'>");
+                                        var tr2 = $("<tr>");
+                                        var tableBody = $("<td id='activity-descr'>");
+                                        tableHead.text(response3.places[index].name);
 
-                                if (response3.places[index].activities["0"].description == null) {
-                                    tableBody.html("<em> Sorry, this location does not have a description. </em>")
+                                        if (response3.places[index].activities["0"].description == null) {
+                                            tableBody.html("<em> Sorry, this location does not have a description. </em>")
+                                        }
+
+                                        else {
+                                            tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
+                                        }                               
+
+                                        table.append(tr1);
+                                        table.append(tr2);
+                                        tr1.append(tableHead);
+                                        tr2.append(tableBody);
+                                        infoArea.append(table);
+                                
+                                     });
                                 }
-
-                                else {
-                                    tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
-                                }                               
-
-                                table.append(tr1);
-                                table.append(tr2);
-                                tr1.append(tableHead);
-                                tr2.append(tableBody);
-                                infoArea.append(table);
-                                (mapCol).append(infoArea);
-                            });
                         });
                     });
 
@@ -301,9 +308,7 @@ function entireJavascript(){
                             
                             contentCon.empty();
 
-                            var contentTitle = $("<span class='card-title'>");
-
-                            contentCon.append(contentTitle);
+                             contentCon.append(contentTitle);
                             contentTitle.text("Activity Options");
 
                             var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
@@ -334,7 +339,8 @@ function entireJavascript(){
 
                                     $(".trail-btn").on("click", function(){
                                         var index = $(this).attr("value");
-                                        var infoArea = $("<div class='card'>");
+                                        infoArea.css('display', 'block');
+                                        infoArea.empty();
                                         var table = $("<table>");
                                         var tr1 = $("<tr>");
                                         var tableHead = $("<th id='activity-name'>");
@@ -351,7 +357,7 @@ function entireJavascript(){
                                         tr1.append(tableHead);
                                         tr2.append(tableBody);
                                         infoArea.append(table);
-                                        (mapCol).append(infoArea);
+
                                     });
                                 }
                             });
@@ -394,6 +400,12 @@ function entireJavascript(){
                                 });
                             }
 
+                        // create the area that will house the individual activities the user clicks
+                        var infoArea = $("<div class='card' style='display: none'>");
+
+                        // append it to the map column
+                        (mapCol).append(infoArea);
+
                          // create a column to house the dynamic content
                          var contentCol = $("<div class='col m5'>");
                         
@@ -408,10 +420,19 @@ function entireJavascript(){
 
 
                                 // create the card content
-                                var contentCon =$("<div class='card-content'>");
+                                var contentCon =$("<div class='card-content center-align'>");
 
                                     // append the content to the card
                                     contentCard.append(contentCon);
+
+                                    // Create the title of the card
+                                    var contentTitle = $("<span class='card-title center-align'>");
+
+                                        // append it
+                                        contentCon.append(contentTitle);
+                                    
+                                        // Add text
+                                        contentCon.text("Select an activity.");
                        
             }
         });
