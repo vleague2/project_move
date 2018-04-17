@@ -1,5 +1,6 @@
 
 /* Page Foundation */
+/* testing */
 
 body {
     display: flex;
@@ -174,7 +175,7 @@ body {
     background-color: #0d1d23; 
 }
 
-/* Dynamic div of pak info */
+/* Dynamic div of park info */
 #activity-name, #activity-descr {
     padding-left: 20px;
 }
