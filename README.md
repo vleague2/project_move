@@ -35,3 +35,5 @@
 4. Add support for night-time weather and activities
 5. Allow the user to load more activity destinations
 6. Populate the Google Map pin with more information about the location itself
+7. Add more specific weather-based activity recommendations
+8. Generate button options based on the weather
