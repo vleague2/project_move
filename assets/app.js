@@ -261,18 +261,12 @@ function entireJavascript(){
                                     "Accept": "text/plain"
                                 }
                                 }).then(function(response3) {
-                                console.log(response3);
-                    
-                                var cityName = response3.places[1].city;
-                                var siteName = response3.places[1].name;
-                                var lat = response3.places[1].lat;
-                                var long = response3.places[1].lon;
+                                  console.log(response3);
 
-                                for (var i = 0; i < response3.places.length; i++ ){
-                                        var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
-                                        $(contentCon).append(trailbutton);
-
-                                };
+                                  for (var i = 0; i < response3.places.length; i++ ){
+                                      var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+                                      $(contentCon).append(trailbutton);
+                                  };
                                     
                             $(".trail-btn").on("click", function(){
                                 var index = $(this).attr("value");
@@ -300,12 +294,7 @@ function entireJavascript(){
                                 (mapCol).append(infoArea);
                             });
                         });
-                    })
-                        // id 2 is hiking
-                        // id 5 is mountain biking 
-                        // id 6 is camping
-                        // id 7 is caving
-                      
+                    });
 
 
                         $(".places-btn").on("click", function(){
@@ -423,8 +412,6 @@ function entireJavascript(){
 
                                     // append the content to the card
                                     contentCard.append(contentCon);
-
-
                        
             }
         });
