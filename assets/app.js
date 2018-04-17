@@ -205,7 +205,7 @@ function entireJavascript(){
                                 promptCard.append(promptCon);
                                     
                                 // Add text inside
-                                promptCon.append("<h5> What would you like to do? </h5>");
+                                promptCon.append("<h5 class='question'> What would you like to do? </h5>");
 
 
                         // This section goes in the row for the buttons
@@ -407,7 +407,7 @@ function entireJavascript(){
                         (mapCol).append(infoArea);
 
                          // create a column to house the dynamic content
-                         var contentCol = $("<div class='col m5 activities'>");
+                         var contentCol = $("<div class='col m5'>");
                         
                          // append to the appropriate row
                          mapRow.append(contentCol);
@@ -420,7 +420,7 @@ function entireJavascript(){
 
 
                                 // create the card content
-                                var contentCon =$("<div class='card-content center-align'>");
+                                var contentCon =$("<div class='card-content selectAct center-align'>");
 
                                     // append the content to the card
                                     contentCard.append(contentCon);
@@ -432,7 +432,7 @@ function entireJavascript(){
                                         contentCon.append(contentTitle);
                                     
                                         // Add text
-                                        contentCon.text("Select an activity.");
+                                        contentCon.text("Select an activity");
                        
             }
         });
