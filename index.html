@@ -12,13 +12,11 @@
     <!-- Materialize CDN link for CSS -->
     <link rel="stylesheet" href="assets/materialize.css">
 
-
     <!-- Icon CDN -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Font -->
     <link href="https://fonts.googleapis.com/css?family=Khula" rel="stylesheet">
-
 
     <!-- Link to our external CSS -->
     <link rel="stylesheet" type="text/css" media="screen" href="assets/style.css" />
@@ -30,10 +28,14 @@
     <!--Header-->
     <nav>
         <div class="header">
+            <!-- Materialize Classes -->
             <div class="nav-wrapper header-footer-color" >
+                <!-- Link back to main page if user clicks on logo it will always take them back -->
                 <a href="index.html" id="back">
+                    <!-- Logo Image in header -->
                     <img class="brand-logo logo responsive-img" src="assets/images/logo_attempt_2.png">
                 </a>
+                <!-- Home button on dynamic page -->
                 <ul id="nav-mobile" class="right hide-on-med-and-down"></ul>
             </div>
         </div>
@@ -41,11 +43,14 @@
 
     <!--  Main body -->
     <main>
+        <!-- Grey div on page -->
         <div class= "container search-content centered">
             <div class="col s12 m7" id="hide1">
                 <div class="card horizontal teal hoverable">
                     <div class="card-stacked">
+                        <!-- Green box on page -->
                         <div class="card-content card-color">
+                          <!-- Statement on main page -->
                           <h5 class="white-text statement center-align">Want to pair a great activity with the current weather?<br>
                                Search your city now!</h5>
                         </div> 
@@ -53,13 +58,17 @@
                 </div>
             </div>
 
-            <div class="row" id="hide2">               
+            <div class="row" id="hide2">    
+                <!-- Form -->           
                 <div class="input-field input col s6 offset-s2" id='searchInput'>
                     <input id="usercity" type="text" class="validate center-align">
+                    <!-- Label for form -->
                     <label id="label" for="usercity">City Name</label>
+                    <!-- Text under search bar if user inputs wrong city-->
                     <span class='helper-text'></span>
                 </div>
                 <div class="col s2">
+                    <!-- Search Button -->
                     <button class="btn waves-effect search-btn card-color" id="user" name="action">Search
                         <i class="material-icons right"></i>
                     </button>
@@ -71,7 +80,9 @@
     <!-- Footer -->
     <footer class="page-footer footer header-footer-color">
         <div>
+            <!-- Materialize classes for the footer -->
             <div class="container center-align">
+                <!-- Footer text -->
                 <p id="footer-text">© 2018 Team Fondue</p>
             </div>
         </div>

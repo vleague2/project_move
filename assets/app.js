@@ -28,7 +28,7 @@ $("#usercity").keyup(function(event) {
     }
 });
 
-// The code for the site depends on the weather app to run, so it is contained in this function  
+// The code that executes upon city search 
 function searchFunction(){
 
     // Pull the value from the search form
@@ -413,7 +413,6 @@ function searchFunction(){
                         title: 'Hello World!'
                         });
                     }
-
                         
                     // create the area that will house the individual activities the user clicks & append
                     var infoArea = $("<div class='card' style='display: none'>");
