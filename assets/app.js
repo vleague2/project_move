@@ -1,12 +1,12 @@
- // Initialize Firebase
- var config = {
+// Initialize Firebase
+var config = {
      apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
      authDomain: "project-move-1523543773098.firebaseapp.com",
      databaseURL: "https://project-move-1523543773098.firebaseio.com",
      projectId: "project-move-1523543773098",
      storageBucket: "",
      messagingSenderId: "101064034892"
- };
+};
 
 firebase.initializeApp(config);
 
@@ -18,18 +18,18 @@ var citiesArray =[];
 
 // When the user clicks the search button
 $("#user").on("click", function() {
-    entireJavascript();
+    searchFunction();
 });
 
 // Allow the user to hit enter to search
 $("#usercity").keyup(function(event) {
     if (event.keyCode === 13) {
-        entireJavascript();
+        searchFunction();
     }
 });
 
 // The code for the site depends on the weather app to run, so it is contained in this function  
-function entireJavascript(){
+function searchFunction(){
 
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
