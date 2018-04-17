@@ -189,7 +189,7 @@ function entireJavascript(){
                     promptCon.append("<h5> What would you like to do? </h5>");
 
 
-                // BUTTON GENERATION SECTION
+                // BUTTON GENERATION & FUNCTIONALITY SECTION
 
                     // Create four columns, one for each button
                     var buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
@@ -214,7 +214,7 @@ function entireJavascript(){
 
                     buttonCol3.append("<button class='waves-effect waves-light btn-large card-color places-btn' value='4' style='width: 100%'>Visit a Park</button>");
 
-                    // When the user clicks on one of the activity buttons:
+                    // When the user clicks on one of the first three
                     $(".activity-btn").on("click", function(){
 
                         // empty the card that contains the activity options (card is created below)
@@ -244,184 +244,199 @@ function entireJavascript(){
                                 "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
                                 "Accept": "text/plain"
                             }                      
-                            }).then(function(response3) {
-                                console.log(response3);
+                        }).then(function(response3) {
+                            console.log(response3);
 
-                                // add a message for the user if the response returns no results
-                                if (response3.places.length < 1) {
+                            // add a message for the user if the response returns no results
+                            if (response3.places.length < 1) {
+                            
+                                // add a paragraph to hold the error text, append, and add the text
+                                var errText = $("<p>");
+                                contentCon.append(errText);
+                                errText.text("Sorry, no options match that activity in this area.");
+                            }
+
+                            // if the response returns results:
+                            else {
+
+                                // loop through the length of the response
+                                for (var i = 0; i < response3.places.length; i++ ){
+
+                                    // create buttons for each response item
+                                    var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+
+                                    // append to the card that holds the activity content
+                                    $(contentCon).append(trailbutton);
+                                };
                                 
-                                    // add a paragraph to hold the error text, append, and add the text
-                                    var errText = $("<p>");
-                                    contentCon.append(errText);
-                                    errText.text("Sorry, no options match that activity in this area.");
-                                }
+                                // listen for clicks on the newly created trail buttons
+                                $(".trail-btn").on("click", function(){
 
-                                // if the response returns results:
-                                else {
+                                    // pull the value of the clicked button
+                                    var index = $(this).attr("value");
 
-                                    // loop through the length of the response
-                                    for (var i = 0; i < response3.places.length; i++ ){
+                                    // make the infoArea visible & empty it
+                                    infoArea.css('display', 'block');
+                                    infoArea.empty();
 
-                                        // create buttons for each response item
-                                        var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+                                    // build tabel dynamically
+                                    var table = $("<table>");
+                                    var tr1 = $("<tr>");
+                                    var tableHead = $("<th id='activity-name'>");
+                                    var tr2 = $("<tr>");
+                                    var tableBody = $("<td id='activity-descr'>");
 
-                                        // append to the card that holds the activity content
-                                        $(contentCon).append(trailbutton);
-                                    };
+                                    // add a title to the table with the name of the location
+                                    tableHead.text(response3.places[index].name);
 
-                                    // create the area that will house the individual activities the user clicks
-                                    var infoArea = $("<div class='card' style='display: none'>");
+                                    // if the activity does not have a description
+                                    if (response3.places[index].activities["0"].description == null) {
+                                        tableBody.html("<em> Sorry, this location does not have a description. </em>")
+                                    }
+
+                                    // otherwise, add the description to the body
+                                    else {
+                                        tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
+                                    }
                                     
-                                    // listen for clicks on the newly created trail buttons
-                                    $(".trail-btn").on("click", function(){
-
-                                        var index = $(this).attr("value");
-                                        infoArea.css('display', 'block');
-                                        infoArea.empty();
-                                        var table = $("<table>");
-                                        var tr1 = $("<tr>");
-                                        var tableHead = $("<th id='activity-name'>");
-                                        var tr2 = $("<tr>");
-                                        var tableBody = $("<td id='activity-descr'>");
-                                        table.append(tr1);
-                                        table.append(tr2);
-                                        tr1.append(tableHead);
-                                        tr2.append(tableBody);
-                                        infoArea.append(table);
-
-                                        
-                        
-                                        // add a title to the table with the name of the 
-                                        tableHead.text(response3.places[index].name);
-
-                                        if (response3.places[index].activities["0"].description == null) {
-                                            tableBody.html("<em> Sorry, this location does not have a description. </em>")
-                                        }
-
-                                        else {
-                                            tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
-                                        }                                                               
-                                     });
-                                }
+                                    // append everything
+                                    table.append(tr1);
+                                    table.append(tr2);
+                                    tr1.append(tableHead);
+                                    tr2.append(tableBody);
+                                    infoArea.append(table);
+                                });
+                            }
                         });
                     });
 
+                    // listen for clicks on the park button specifically
+                    $(".places-btn").on("click", function(){
+                          
+                        // empty the content card
+                        contentCon.empty();
 
-                        $(".places-btn").on("click", function(){
-                            
-                            contentCon.empty();
+                        // append the title & add text
+                        contentCon.append(contentTitle);
+                        contentTitle.text("Activity Options");
 
-                             contentCon.append(contentTitle);
-                            contentTitle.text("Activity Options");
+                        // define the URL for the google places API
+                        var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
 
-                            var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+                        console.log(queryURL3);
 
-                            console.log(lat + ", " + long);
-                            console.log(queryURL3);
+                        // AJAX call for Google Places API
+                        $.ajax({
+                        url: queryURL3,
+                        method: "GET",
 
-                            // AJAX call for Google Places API
-                            $.ajax({
-                            url: queryURL3,
-                            method: "GET",
+                            // if the API returns an error, that means there are no activities
+                            error: function(response4, error) {
+                                console.log(error);
+                                var errText = $("<p>");
+                                contentCon.append(errText);
+                                errText.text("Sorry, no options match that activity in this area.");
+                            },
+                    
+                            // Once data is retrieved from API...
+                            success: function(response4) {
+                                console.log(response4);
 
-                                error: function(response4, error) {
-                                    console.log(error);
-                                    var errText = $("<p>");
-                                    contentCon.append(errText);
-                                    errText.text("Sorry, no options match that activity in this area.");
-                                },
-                
-                                // Once data is retrieved from API...
-                                success: function(response4) {
-                                    console.log(response4);
+                                // loop through the first 10 results
+                                for (var i = 0; i < 10; i++ ){
 
-                                    for (var i = 0; i < 10; i++ ){
-                                        var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response4.results[i].name + "</button>";
-                                        $(contentCon).append(trailbutton);
-                                    };
+                                    // create buttons for each result & append
+                                    var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response4.results[i].name + "</button>";
+                                    $(contentCon).append(trailbutton);
+                                };
 
-                                    $(".trail-btn").on("click", function(){
-                                        displayActivity();
+                                $(".trail-btn").on("click", function(){
+                                    // pull the value of the clicked button
+                                    var index = $(this).attr("value");
 
-                                        tableHead.text(response4.results[index].name);
-        
-                                        tableBody.html("Address: " + response4.results[index].formatted_address + "<br> Rating: " + response4.results[index].rating + "/5" )
-                                                                    
-                                    });
-                                }
-                            });
-                        });
-                
+                                    // make the infoArea visible & empty it
+                                    infoArea.css('display', 'block');
+                                    infoArea.empty();
 
+                                    // build table dynamically
+                                    var table = $("<table>");
+                                    var tr1 = $("<tr>");
+                                    var tableHead = $("<th id='activity-name'>");
+                                    var tr2 = $("<tr>");
+                                    var tableBody = $("<td id='activity-descr'>");
 
-                        // This section goes in the the map row
-                        
+                                    // add a title to the table with the name of the location
+                                    tableHead.text(response4.results[index].name);
 
-                        // Create a column to house the map
-                        var mapCol = $("<div class='col m7' id='map'>");
-
-                            // append it to the row
-                            mapRow.append(mapCol);
-
-                            // Identify the API key for the map
-                            var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
-                
-                            // Append the map to the map column
-                            $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
-                            
-                            // Initialize the map
-                            function initMap() {
-
-                                // create a more simple variable for this area using the lat and long we pulled above
-                                var myLatLng = {lat, long};
-
-                                // Uh...
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 4,
-                                center: myLatLng
-                                });
-
-                                // ?????
-                                var marker = new google.maps.Marker({
-                                position: myLatLng,
-                                map: map,
-                                title: 'Hello World!'
+                                    // add the address and rating of the location
+                                    tableBody.html("Address: " + response4.results[index].formatted_address + "<br> Rating: " + response4.results[index].rating + "/5" )
+                                                    
+                                    // append everything
+                                    table.append(tr1);
+                                    table.append(tr2);
+                                    tr1.append(tableHead);
+                                    tr2.append(tableBody);
+                                    infoArea.append(table);
                                 });
                             }
+                        });
+                    });
+                
+                // MAP ROW SECTION
+                        
+                    // Create a column to house the map & append
+                    var mapCol = $("<div class='col m7' id='map'>");
+                    mapRow.append(mapCol);
+
+                    // Identify the API key for the map
+                    var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
+                
+                    // Append the map to the map column
+                    $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+                            
+                    // Initialize the map
+                    function initMap() {
+
+                        // create a more simple variable for this area using the lat and long we pulled above
+                        var myLatLng = {lat, long};
+
+                        // Uh...
+                        var map = new google.maps.Map(document.getElementById('map'), {
+                        zoom: 4,
+                        center: myLatLng
+                        });
+
+                        // ?????
+                        var marker = new google.maps.Marker({
+                        position: myLatLng,
+                        map: map,
+                        title: 'Hello World!'
+                        });
+                    }
 
                         
+                    // create the area that will house the individual activities the user clicks & append
+                    var infoArea = $("<div class='card' style='display: none'>");
+                    (mapCol).append(infoArea);
 
-                        // append the info area to the map column
-                        (mapCol).append(infoArea);
+                    // create a column to house the activity options & append
+                    var contentCol = $("<div class='col m5'>");
+                    mapRow.append(contentCol);
 
-                         // create a column to house the dynamic content
-                         var contentCol = $("<div class='col m5'>");
-                        
-                         // append to the appropriate row
-                         mapRow.append(contentCol);
+                    // create the card to format the activity option text & append
+                    var contentCard =$("<div class='card'>");
+                    contentCol.append(contentCard);
 
-                            // create the card 
-                            var contentCard =$("<div class='card'>");
+                    // create the card content & append
+                    var contentCon =$("<div class='card-content center-align'>");
+                    contentCard.append(contentCon);
 
-                                // append the card to the column
-                                contentCol.append(contentCard);
-
-
-                                // create the card content
-                                var contentCon =$("<div class='card-content center-align'>");
-
-                                    // append the content to the card
-                                    contentCard.append(contentCon);
-
-                                    // Create the title of the card
-                                    var contentTitle = $("<span class='card-title center-align'>");
-
-                                        // append it
-                                        contentCon.append(contentTitle);
-                                    
-                                        // Add text
-                                        contentCon.text("Select an activity.");
-                       
+                    // Create the title of the card & append it
+                    var contentTitle = $("<span class='card-title center-align'>");
+                    contentCon.append(contentTitle);
+                            
+                    // Add the title text
+                    contentCon.text("Select an activity.");    
             }
         });
     };
