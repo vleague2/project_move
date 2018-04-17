@@ -18,7 +18,7 @@
 2. Create HTML for main page and create a form for the user to input the city of their choice
 3. The screen with all the park info, map, and weather will be dynamically created through JavaScript
 4. Create AJAX calls for our APIs
-5. Collect the zip code the user inputs and generate the weather for that location from the Weather API
+5. Collect the city the user inputs and generate the weather for that location from the Weather API
 6. Use that data to then recommend the activities to the user
 7. Using Google Maps API append the map to the screen to show the area the user inputed
 8. Use the Trail API to create the list of activities

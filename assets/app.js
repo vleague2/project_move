@@ -407,7 +407,7 @@ function entireJavascript(){
                         (mapCol).append(infoArea);
 
                          // create a column to house the dynamic content
-                         var contentCol = $("<div class='col m5'>");
+                         var contentCol = $("<div class='col m5 activities'>");
                         
                          // append to the appropriate row
                          mapRow.append(contentCol);

@@ -1,10 +1,11 @@
+
 /* Page Foundation */
 
 body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-  }
+}
 
     main {
     flex: 1 0 auto;
@@ -33,7 +34,7 @@ body {
         color: #86ac41;
     }
 
-    
+    /* Moves the footer to the top to stop the content div from eating the page */
     .footer {
         z-index: 1;
     }
@@ -44,46 +45,42 @@ body {
         box-shadow: 0px 0px 8px 2px #000000;
     }
 
-    /* Home button */
-    
-    #nav-mobile {
-        background-color: #86ac41;
-        height: 100px;
-        padding-top: 17px;
-    }
-
     /* Logo in header */
-
     .logo {
         width: 190px;
     }
 
     /* Search section */
 
-
+    /* font styles for the statement on main page */
     .statement {
         font-family: 'Khula', sans-serif;
         font-weight: bold;
     }
     
+    /* Color and styling of search content div */
     .search-content {
         background-color: rgba(26, 25, 25, 0.8);
         border-radius: 10px;
         padding: 60px;
     }
     
+    /* Spacing for the search btn */
     .search-btn {
         margin-top: 20px;
     }
 
+    /* Color of statement div */
     .card-color {
         background-color: #86ac41;
     }
 
+    /* Hover color of the search button */
     button:hover {
         background-color: #0d1d23; 
     }
 
+    /* Focus color of the search btn */
     button:focus {
         background-color: #86ac41; 
     }
@@ -96,21 +93,24 @@ body {
         transform: translate(-50%, -50%);
     }
 
-    /* label focus color */
+   /* Color of input */
     .input input[type=text]{
         color: white;
         border-bottom: 1px solid white;
         text-align: left;
     }
 
+    /* Label text color */
     #label {
         color: white;
     }
 
+    /* label focus color */
     .input:focus {
         color: #fff;
     }
 
+    /* Overwrite materialize code for the color of the search bar */
     input:not([type]):focus:not([readonly]),
     input[type=text]:not(.browser-default):focus:not([readonly]),
     input[type=password]:not(.browser-default):focus:not([readonly]),
@@ -132,6 +132,14 @@ body {
 
 /* Dynamic Page */
 
+/* Home button  */
+#nav-mobile {
+    background-color: #86ac41;
+    height: 100px;
+    padding-top: 17px;
+}
+
+/* Main div on dynamic page */
  #dynamic-container {
     background-color: rgba(27, 29, 34, 0.7);
     height: 100%;
@@ -139,38 +147,51 @@ body {
     padding-right: 30px;
  }
 
+ /* div that will show the current weather */
 .weatherCard {
     background-size: cover;
 }
 
+/* Color of text under the search bar */
 .helper-text {
     color: white;
 }
 
+/* Space between activity options btns and color */
 .trail-btn {
     margin-bottom: 15px;
     background-color: #7da3a1;
 }
 
+/* Focus color of trail btns */
 .trail-btn:focus {
     background-color: #0d1d23; 
 }
 
+/* Dynamic div of pak info */
 #activity-name, #activity-descr {
     padding-left: 20px;
 }
 
+.activities {
+    margin-top: 0;
+}
+
 /* Media Queries */
 
+/* Mobile */
 @media only screen and (max-width: 600px){
+    /* Moves the logo to the left so it isnt in the dynamic home button */
     nav .brand-logo {
         left: 25%;
     }
 
+    /* Allows activity btns to fix on screen in mobile and not eat the page */
     .activity-btns {
         width: 100%;
     }
 
+    /* Add spacing for the hiking and camping btns */
     .btn-hiking-camping {
         margin-bottom: 20px;
     }
