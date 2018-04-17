@@ -422,7 +422,6 @@ function searchFunction(){
                         title: 'Hello World!'
                         });
                     }
-
                         
                     // create the area that will house the individual activities the user clicks & append
                     var infoArea = $("<div class='card' style='display: none'>");
