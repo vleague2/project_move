@@ -472,7 +472,7 @@ function searchFunction(){
                     mapRow.append(contentCol);
 
                     // create the card to format the activity option text & append
-                    var contentCard =$("<div class='card'>");
+                    var contentCard =$("<div class='card' style='margin-top: 0px'>");
                     contentCol.append(contentCard);
 
                     // create the card content & append
