@@ -53,6 +53,11 @@ $("#usercity").keyup(function(event) {
 // The code for the site depends on the weather app to run, so it is contained in this function  
 function searchFunction(){
 
+    // create the area that will house the individual activities the user clicks & append
+    var infoAreaCol = $("<div class='col m10 offset-m1'>")
+    var infoArea = $("<div class='card' style='display: block'>");
+    
+
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
 
@@ -131,8 +136,11 @@ function searchFunction(){
                 var promptRow = $("<div class='row'>");
                 var buttonRow = $("<div class='row'>");
                 var buttonRow2 = $("<div class='row' style='margin-bottom: 40px'>")
+                var resultRow = $("<div class='row'>");
                 var mapRow = $("<div class='row' style='margin-bottom: 60px'>");
-                container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(mapRow);
+                container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
+
+                resultRow.append(infoAreaCol);
 
 
                 // WEATHER CONTENT SECTION
@@ -305,6 +313,7 @@ function searchFunction(){
                                     // make the infoArea visible & empty it
                                     infoArea.css('display', 'block');
                                     infoArea.empty();
+                                    infoAreaCol.append(infoArea);
 
                                     // build tabel dynamically
                                     var table = $("<table>");
@@ -408,6 +417,7 @@ function searchFunction(){
                                     // make the infoArea visible & empty it
                                     infoArea.css('display', 'block');
                                     infoArea.empty();
+                                    infoAreaCol.append(infoArea);
 
                                     // build table dynamically
                                     var table = $("<table>");
@@ -468,10 +478,6 @@ function searchFunction(){
                 
                     // Append the map to the map column
                     $(mapCol).append("<script async defer                           src='https://maps.googleapis.com/maps/api/js?key=" + gmapAPIkey + "&callback=initMap'></script>");
-                        
-                    // create the area that will house the individual activities the user clicks & append
-                    var infoArea = $("<div class='card' style='display: none'>");
-                    (mapCol).append(infoArea);
 
                     // create a column to house the activity options & append
                     var contentCol = $("<div class='col m5'>");
