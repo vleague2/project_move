@@ -50,7 +50,7 @@ function entireJavascript(){
         var openWeatherparam = "&q="+userCity
 
         // open weather query for ajax call
-        var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
+        var queryURL2 = "https://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
             
         // AJAX call for Open Weather API
         $.ajax({
@@ -441,8 +441,3 @@ function entireJavascript(){
         });
     };
 };
-
-    
-
-
-
