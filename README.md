@@ -27,7 +27,7 @@
 11. When the buttons are clicked, the app appends park data to the screen in a dynamically created div
 12. Lastly, we tested the site for mobile functionality and added media queries if needed
 
-*Future Development
+* Future Development
 
 1. Add support for more types of activities
 2. Add the option to specify the state of the city (a limitation in the API used)
