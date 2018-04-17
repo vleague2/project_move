@@ -57,7 +57,6 @@ function searchFunction(){
     var infoAreaCol = $("<div class='col m10 offset-m1'>")
     var infoArea = $("<div class='card' style='display: block'>");
     
-
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
 
@@ -140,6 +139,8 @@ function searchFunction(){
                 var mapRow = $("<div class='row' style='margin-bottom: 60px'>");
                 container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
 
+
+                // append our infoArea column to the result row
                 resultRow.append(infoAreaCol);
 
 
@@ -152,27 +153,6 @@ function searchFunction(){
                     // Make the div that will show the current weather; this is the card container. & append 
                     var newWeatherDiv = $("<div class='card' id='weatherCard'>");
                     weatherCol2.append(newWeatherDiv);
-
-                    // To add the background image to the weather div based on the weather:
-                    if (nowWeather == "Clouds") {
-                        var weatherConditionImage = "assets/images/clouds.jpg";
-                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                    }
-
-                    else if (nowWeather == "Rain") {
-                        var weatherConditionImage = "assets/images/rain_large.jpg";
-                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                    }
-
-                    else if (nowWeather == "Snow") {
-                        var weatherConditionImage = "assets/images/snow2.jpg";
-                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                    }
-
-                    else {
-                        var weatherConditionImage = "assets/images/sun.jpg";
-                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                    }
 
                     // Make a div for Materialize's card stack; append
                     var newWeatherCard = $("<div class='card-stacked'>");
@@ -188,21 +168,29 @@ function searchFunction(){
                     // Append a P tag that will hold the weather info
                     newWeatherContent.append("<p class='center-align'>Next 3 hours:<br>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
 
-                    // Append a suggestion about the weather
+                    // Append a suggestion about the weather & insert appropriate weather image
                     if (nowWeather == "Clouds") {
                         newWeatherContent.append("<p class='center-align'>Today would be a great day for hiking or biking!</p>");
+                        var weatherConditionImage = "assets/images/clouds.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                     }
 
                     else if (nowWeather == "Rain") {
-                        newWeatherContent.append("<p class='center-align'>If the weather </p>");
+                        newWeatherContent.append("<p class='center-align'>It might be a good idea to head to the gym!</p>");
+                        var weatherConditionImage = "assets/images/rain_large.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                     }
 
                     else if (nowWeather == "Snow") {
-                        newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
+                        newWeatherContent.append("<p class='center-align'>It might be a good idea to head to the gym!</p>");
+                        var weatherConditionImage = "assets/images/snow2.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                     }
 
                     else {
                         newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
+                        var weatherConditionImage = "assets/images/sun.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                     }
 
 
@@ -361,7 +349,7 @@ function searchFunction(){
                                         var marker = new google.maps.Marker({
                                             position: myLatLng,
                                             map: map,
-                                            title: 'Does this work?'
+                                            title: response3.places[index].name
                                         });
                                             console.log(myLatLng);
                                     }
@@ -458,7 +446,7 @@ function searchFunction(){
                                         var marker = new google.maps.Marker({
                                             position: myLatLng,
                                             map: map,
-                                            title: 'Does this work?'
+                                            title: response4.results[index].name
                                         });
                                             console.log(myLatLng);
                                     };
