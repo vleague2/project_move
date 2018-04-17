@@ -1,6 +1,6 @@
 # Project_Move
 
-![Page ScreenShot](assets/images/page-sreenshot.png)
+![Page ScreenShot](assets/images/page-screenshot.png)
 
 * What the app does
 
