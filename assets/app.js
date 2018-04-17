@@ -138,6 +138,11 @@ function searchFunction(){
                         newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
                     }
 
+                    else if (nowWeather == "Snow") {
+                        var weatherConditionImage = "assets/images/snow2.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
+                    }
+
                     else {
                         var weatherConditionImage = "assets/images/sun.jpg";
                         newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
@@ -163,6 +168,10 @@ function searchFunction(){
                     }
 
                     else if (nowWeather == "Rain") {
+                        newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
+                    }
+
+                    else if (nowWeather == "Snow") {
                         newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
                     }
 
