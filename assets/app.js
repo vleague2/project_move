@@ -1,4 +1,33 @@
- // Initialize Firebase
+var mapMarker = {
+    lat: null,
+    long: null
+};
+
+console.log(mapMarker);
+
+ function initMap() {
+
+                                
+    var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
+    console.log(myLatLng)
+
+    // Uh...
+    var map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 12,
+    center: myLatLng
+    });
+    console.log(map);
+    
+    var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: 'Does this work?'
+    });
+};
+
+
+
+// Initialize Firebase
  var config = {
      apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
      authDomain: "project-move-1523543773098.firebaseapp.com",
@@ -96,10 +125,13 @@ function entireJavascript(){
                     var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
 
                     // pull the location's latitude
-                    var lat = response.city.coord.lat;
+                    mapMarker.lat = response.city.coord.lat;
+                   
 
                     // Pull the location's longitude
-                    var long = response.city.coord.lon;
+                    mapMarker.long = response.city.coord.lon;
+                    // console.log(lat);
+                    // console.log(long);
                     
                     // Setting up the dynamically-generated divs for the page!
 
@@ -272,7 +304,7 @@ function entireJavascript(){
                                         var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
                                         $(contentCon).append(trailbutton);
                                     };
-                                    
+                                  
                                     $(".trail-btn").on("click", function(){
                                         var index = $(this).attr("value");
                                         infoArea.css('display', 'block');
@@ -283,6 +315,26 @@ function entireJavascript(){
                                         var tr2 = $("<tr>");
                                         var tableBody = $("<td id='activity-descr'>");
                                         tableHead.text(response3.places[index].name);
+                                        mapMarker.lat = response3.places[index].lat;
+                                        mapMarker.long = response3.places[index].lon;
+                                        console.log(mapMarker);
+                                        addMarker()
+                                        function addMarker(location, map){
+                                            var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
+                                            
+                                            var map = new google.maps.Map(document.getElementById("map"), {
+                                                zoom: 12,
+                                                center: myLatLng
+                                                });
+                                                console.log(map);
+                                            
+                                            var marker = new google.maps.Marker({
+                                                position: myLatLng,
+                                                map: map,
+                                                title: 'Does this work?'
+                                                });
+                                                console.log(myLatLng);
+                                        }
 
                                         if (response3.places[index].activities["0"].description == null) {
                                             tableBody.html("<em> Sorry, this location does not have a description. </em>")
@@ -300,6 +352,7 @@ function entireJavascript(){
                                 
                                      });
                                 }
+                                
                         });
                     });
 
@@ -311,9 +364,9 @@ function entireJavascript(){
                              contentCon.append(contentTitle);
                             contentTitle.text("Activity Options");
 
-                            var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+                            var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + mapMarker.lat + "," + mapMarker.long + "&radius=40000";
 
-                            console.log(lat + ", " + long);
+                            
                             console.log(queryURL3);
 
                             // AJAX call for Google Places API
@@ -375,30 +428,14 @@ function entireJavascript(){
                             mapRow.append(mapCol);
 
                             // Identify the API key for the map
-                            var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
-                
-                            // Append the map to the map column
-                            $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
+                            var gmapAPIkey = "AIzaSyCjHs6XkqXNSn2glWRVOqAdisf8xDJoFlg";
                             
                             // Initialize the map
-                            function initMap() {
-
-                                // create a more simple variable for this area using the lat and long we pulled above
-                                var myLatLng = {lat, long};
-
-                                // Uh...
-                                var map = new google.maps.Map(document.getElementById('map'), {
-                                zoom: 4,
-                                center: myLatLng
-                                });
-
-                                // ?????
-                                var marker = new google.maps.Marker({
-                                position: myLatLng,
-                                map: map,
-                                title: 'Hello World!'
-                                });
-                            }
+                           
+                
+                            // Append the map to the map column
+                            $(mapCol).append("<script async defer                           src='https://maps.googleapis.com/maps/api/js?key=" + gmapAPIkey + "&callback=initMap'></script>");
+                            
 
                         // create the area that will house the individual activities the user clicks
                         var infoArea = $("<div class='card' style='display: none'>");
