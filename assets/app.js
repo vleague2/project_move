@@ -8,272 +8,273 @@
      messagingSenderId: "101064034892"
  };
 
- firebase.initializeApp(config);
+firebase.initializeApp(config);
 
- var database = firebase.database();
+// Assign the database to a variable
+var database = firebase.database();
 
- var citiesArray =[];
+// Create an empty array where we will push all searched cities
+var citiesArray =[];
 
 // When the user clicks the search button
 $("#user").on("click", function() {
     entireJavascript();
 });
 
+// Allow the user to hit enter to search
 $("#usercity").keyup(function(event) {
     if (event.keyCode === 13) {
         entireJavascript();
     }
 });
 
-// All of the code!!!!! Lol  
+// The code for the site depends on the weather app to run, so it is contained in this function  
 function entireJavascript(){
 
     // Pull the value from the search form
     var userCity = $("#usercity").val().trim();
 
-        userCity = userCity.toLowerCase();
-        console.log("userCity: " + userCity);
+    // make the city lowercase so the data is standardized in our database
+    userCity = userCity.toLowerCase();
+    console.log("userCity: " + userCity);
   
-        // input validation!
-        if (userCity.length < 3) {
-            $(".helper-text").text("Please enter a city name.")
-        }
+    // input validation -- make sure they are entering enough characters
+    if (userCity.length < 3) {
+        $(".helper-text").text("Please enter a city name.")
+    }
 
-        else {
-
-            // Starting the API info for the Weather API
+    // if the input is long enough...
+    else {
         
-            // query parameter
-            var openWeatherparam = "&q="+userCity
+        // query parameter for open weather API
+        var openWeatherparam = "&q="+userCity
 
-            // putting it all together in a queryURL
-            var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
-             
-            // AJAX call for Open Weather API
-            $.ajax({
-                url: queryURL2,
-                method: "GET",
+        // open weather query for ajax call
+        var queryURL2 = "http://api.openweathermap.org/data/2.5/forecast?" + openWeatherparam + "&APPID=9155ad4470b3c881f026f9305727169c";
+            
+        // AJAX call for Open Weather API
+        $.ajax({
+            url: queryURL2,
+            method: "GET",
 
-                // If we receive an error message...
-                error: function(response, error) {
-                    console.log(error);
-                    $(".helper-text").text("Please enter a valid city.");
-                },
+            // If we receive an error message...
+            error: function(response, error) {
+                console.log(error);
+                $(".helper-text").text("Please enter a valid city.");
+            },
 
-                // Once data is retrieved from API...
-                success: function(response) {
-                    console.log(response);
+            // Once data is retrieved from API...
+            success: function(response) {
+                console.log(response);
 
-                    citiesArray.push(
-                        userCity
-                    ),
-                        console.log(citiesArray);
+                // push the user input to the array
+                citiesArray.push(userCity),
+                    console.log(citiesArray);
 
-                    database.ref().push({
-                        City: userCity,
-                    });
+                // push the city into the database (needs work for array)
+                database.ref().push({
+                    City: userCity,
+                });
 
-                    // hide the current content in search-content
-                    $(".search-content").css('display', 'none');
+                // hide the search screen on the homepage
+                $(".search-content").css('display', 'none');
 
-                    // This is the back button so they can search again
-                    var backbutton = $( "<li>");
-                    var backbuttonLink = $("<a href='index.html'>Back to Search</a>")
-                    backbutton.append(backbuttonLink);
-                    $("#nav-mobile").append(backbutton);
+                // Add a back button so they can choose search again -- links to home page
+                var backbutton = $( "<li>");
+                var backbuttonLink = $("<a href='index.html'>Back to Search</a>")
+                backbutton.append(backbuttonLink);
+                $("#nav-mobile").append(backbutton);
                 
-                    // Pull the current weather and store in a variable
-                    var nowWeather = response.list["0"].weather["0"].main;
-                        console.log(nowWeather);
+                // Pull the current weather from the API and store in a variable
+                var nowWeather = response.list["0"].weather["0"].main;
+                    console.log(nowWeather);
 
-                    // Pull the description of the current weather and store in a variable
-                    var nowWeatherDescription = response.list["0"].weather["0"].description;
+                // Pull the description of the current weather from the API and store in a variable
+                var nowWeatherDescription = response.list["0"].weather["0"].description;
 
-                    // Pull the humidity value and store in a variable
-                    var humidity = response.list["0"].main.humidity;
+                // Pull the humidity value from the API and store in a variable
+                var humidity = response.list["0"].main.humidity;
 
-                    // Pull and round the current temperature converted to F, store in a variable
-                    var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+                // Pull and round the current temperature converted to F, store in a variable
+                var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
 
-                    // pull the location's latitude
-                    var lat = response.city.coord.lat;
+                // pull the location's latitude from the API
+                var lat = response.city.coord.lat;
 
-                    // Pull the location's longitude
-                    var long = response.city.coord.lon;
+                // Pull the location's longitude from the API
+                var long = response.city.coord.lon;
                     
-                    // Setting up the dynamically-generated divs for the page!
+                // Add a container that will hold all of the dynamic content and append it to the page
+                var container = $("<div class='container' id='dynamic-container'>");
+                $("main").append(container);
 
-                    var container = $("<div class='container' id='dynamic-container'>");
-
-                    $("main").append(container);
-
-                        // rows to house content
-                        var weatherRow = $("<div class='row'>");
-
-                        var promptRow = $("<div class='row'>");
-
-                        var buttonRow = $("<div class='row'>");
-
-                        var buttonRow2 = $("<div class='row' style='margin-bottom: 40px'>")
-
-                        var mapRow = $("<div class='row' style='margin-bottom: 60px'>");
-
-                        // append all rows to the container
-                        container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(mapRow);
+                // rows to house content, and append to the container
+                var weatherRow = $("<div class='row'>");
+                var promptRow = $("<div class='row'>");
+                var buttonRow = $("<div class='row'>");
+                var buttonRow2 = $("<div class='row' style='margin-bottom: 40px'>")
+                var mapRow = $("<div class='row' style='margin-bottom: 60px'>");
+                container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(mapRow);
 
 
-                        // WEATHER SECTION
+                // WEATHER CONTENT SECTION
                 
-                        // column for Weather
-                        var weatherCol2 = $("<div class='col m12' style='margin-top: 60px'>");
+                    // Column to house weather info, append to the correct row
+                    var weatherCol2 = $("<div class='col m12' style='margin-top: 60px'>");
+                    weatherRow.append(weatherCol2);
 
-                        // append!
-                        weatherRow.append(weatherCol2);
+                    // Make the div that will show the current weather; this is the card container. & append 
+                    var newWeatherDiv = $("<div class='card' id='weatherCard'>");
+                    weatherCol2.append(newWeatherDiv);
 
-                            // Make the div that will show the current weather, this is the card container 
-                            var newWeatherDiv = $("<div class='card' id='weatherCard'>");
+                    // To add the background image to the weather div based on the weather:
+                    if (nowWeather == "Clouds") {
+                        var weatherConditionImage = "assets/images/clouds.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
+                    }
+
+                    else if (nowWeather == "Rain") {
+                        var weatherConditionImage = "assets/images/rain_large.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
+                    }
+
+                    else {
+                        var weatherConditionImage = "assets/images/sun.jpg";
+                        newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
+                    }
+
+                    // Make a div for Materialize's card stack; append
+                    var newWeatherCard = $("<div class='card-stacked'>");
+                    newWeatherDiv.append(newWeatherCard);
+
+                    // make a div that identifies the card content; append
+                    var newWeatherContent = $("<div class='card-content'>");
+                    newWeatherCard.append(newWeatherContent);
+
+                    // Adding in the text for the card - title
+                    newWeatherContent.append("<p style='font-size: 20px' class='center-align'>Weather conditions for " + response.city.name + "</p><br>")
+
+                    // Append a P tag that will hold the weather info
+                    newWeatherContent.append("<p class='center-align'>Next 3 hours:<br>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
+
+                    // Append a suggestion about the weather
+                    if (nowWeather == "Clouds") {
+                        newWeatherContent.append("<p class='center-align'>Today would be a great day for hiking or biking!</p>");
+                    }
+
+                    else if (nowWeather == "Rain") {
+                        newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
+                    }
+
+                    else {
+                        newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
+                    }
+
+
+                // USER CHOICE PROMPT CONTENT
+
+                    // Column to house the prompt & append
+                    var promptCol =$("<div class='col m10 offset-m1 center-align'>");
+                    promptRow.append(promptCol);
                             
-                            // append!
-                            weatherCol2.append(newWeatherDiv);
-
-                            // To add the background image to the weather div based on the weather:
-                            if (nowWeather == "Clouds") {
-                                var weatherConditionImage = "assets/images/clouds.jpg";
-                                newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                            }
-
-                            else if (nowWeather == "Rain") {
-                                var weatherConditionImage = "assets/images/rain_large.jpg";
-                                newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                            }
-
-                            else {
-                                var weatherConditionImage = "assets/images/sun.jpg";
-                                newWeatherDiv.css("background-image", "url('" + weatherConditionImage + "')");
-                            }
-
-                            // Make a div that identifies as card stacked
-                            var newWeatherCard = $("<div class='card-stacked'>");
-
-                            // Append the card stacked div to the card horizontal div
-                            newWeatherDiv.append(newWeatherCard);
-
-                                // make a div that identifies the card content
-                                var newWeatherContent = $("<div class='card-content'>");
-
-                                // Append the card content div to the card horizontal div
-                                newWeatherCard.append(newWeatherContent);
-
-                                    // Adding in the text for the card
-                                    newWeatherContent.append("<p style='font-size: 20px' class='center-align'>Weather conditions for " + response.city.name + "</p><br>")
-
-                                    // Append a P tag that will hold the weather info
-                                    newWeatherContent.append("<p class='center-align'>Next 3 hours:<br>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
-
-                                    // Append a suggestion
-                                    if (nowWeather == "Clouds") {
-                                        newWeatherContent.append("<p class='center-align'>Today would be a great day for hiking or biking!</p>");
-                                    }
-
-                                    else if (nowWeather == "Rain") {
-                                        newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
-                                    }
-
-                                    else {
-                                        newWeatherContent.append("<p class='center-align'>It's a beautiful day to visit a park or go camping!</p>");
-                                    }
-
-
-                        // This section goes in the row for the prompt
-
-                        // Column for the prompt
-                        var promptCol =$("<div class='col m10 offset-m1 center-align'>");
-
-                        // Append to the appropriate row
-                        promptRow.append(promptCol);
+                    // Create a card to format the text & append
+                    var promptCard =$("<div class='card'>");
+                    promptCol.append(promptCard);
                             
-                            // Create a card
-                            var promptCard =$("<div class='card'>");
-                            
-                            // Append it to the column
-                            promptCol.append(promptCard);
-                            
-                                // Create the card content 
-                                var promptCon = $("<div class='card-content'>");
-
-                                // Append it to the card
-                                promptCard.append(promptCon);
-                                    
-                                // Add text inside
-                                promptCon.append("<h5> What would you like to do? </h5>");
-
-
-                        // This section goes in the row for the buttons
-
-                        // Create four columns, one for each button
-                        var buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
-
-                        var buttonCol1 = $("<div class='activity-btns col m5 center-align'>");
-
-                        var buttonCol2 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
-
-                        var buttonCol3 = $("<div class='activity-btns col m5 center-align'>");
+                    // Create the card content & append
+                    var promptCon = $("<div class='card-content'>");
+                    promptCard.append(promptCon);
                         
-                        // Append the buttons to the appropriate rows
-                        buttonRow.append(buttonCol0).append(buttonCol1);
-                        buttonRow2.append(buttonCol2).append(buttonCol3);
+                    // Add text inside the card
+                    promptCon.append("<h5> What would you like to do? </h5>");
 
 
-                        // Add the buttons themselves & add the correct labels
-                        buttonCol0.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='hiking' style='width: 100%'>Hiking</button>");
+                // BUTTON GENERATION SECTION
 
-                        buttonCol1.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='mountain+biking' style='width: 100%'>Mountain Biking</button>");
-                        
-                        buttonCol2.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='camping' style='width: 100%'>Camping</button>");
+                    // Create four columns, one for each button
+                    var buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
 
-                        buttonCol3.append("<button class='waves-effect waves-light btn-large card-color places-btn' value='4' style='width: 100%'>Visit a Park</button>");
+                    var buttonCol1 = $("<div class='activity-btns col m5 center-align'>");
 
+                    var buttonCol2 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
 
-                        $(".activity-btn").on("click", function(){
-
-                            contentCon.empty();
-
-                            contentCon.append(contentTitle);
-                            contentTitle.text("Activity Options");
-
-                            var active = $(this).attr("value");
-                            console.log(active);
-                            
-                            var trailApi = "https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/";
-
-                            var trailParameters = "?limit=10&q[activities_activity_type_name_eq]="+active+"&q[city_cont]="+userCity+"&radius=25";
+                    var buttonCol3 = $("<div class='activity-btns col m5 center-align'>");
                     
-                            queryURL1 = trailApi + trailParameters;
-                    
-                    
-                            $.ajax({
-                                url: queryURL1,
-                                method: "GET",
-                                headers: {
-                                    "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
-                                    "Accept": "text/plain"
-                                }                      
-                                }).then(function(response3) {
-                                  console.log(response3);
+                    // Append the buttons to the appropriate rows
+                    buttonRow.append(buttonCol0).append(buttonCol1);
+                    buttonRow2.append(buttonCol2).append(buttonCol3);
 
-                                  if (response3.places.length < 1) {
+
+                    // Add the buttons themselves & add the correct labels
+                    buttonCol0.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='hiking' style='width: 100%'>Hiking</button>");
+
+                    buttonCol1.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='mountain+biking' style='width: 100%'>Mountain Biking</button>");
+                    
+                    buttonCol2.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='camping' style='width: 100%'>Camping</button>");
+
+                    buttonCol3.append("<button class='waves-effect waves-light btn-large card-color places-btn' value='4' style='width: 100%'>Visit a Park</button>");
+
+                    // When the user clicks on one of the activity buttons:
+                    $(".activity-btn").on("click", function(){
+
+                        // empty the card that contains the activity options (card is created below)
+                        contentCon.empty();
+
+                        // since we just emptied it, we have to append the title of the card (title is created below)
+                        contentCon.append(contentTitle);
+
+                        // Add the title text
+                        contentTitle.text("Activity Options");
+
+                        // Pull the value of the button the user clicked
+                        var active = $(this).attr("value");
+                        console.log(active);
+    
+                        // Create the trail API parameters
+                        var trailParameters = "?limit=10&q[activities_activity_type_name_eq]="+active+"&q[city_cont]="+userCity+"&radius=25";
+                
+                        // assemble the query URL for the trail API
+                        var queryURL1 = "https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/" + trailParameters;
+                    
+                        // initiate ajax call to the API
+                        $.ajax({
+                            url: queryURL1,
+                            method: "GET",
+                            headers: {
+                                "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
+                                "Accept": "text/plain"
+                            }                      
+                            }).then(function(response3) {
+                                console.log(response3);
+
+                                // add a message for the user if the response returns no results
+                                if (response3.places.length < 1) {
+                                
+                                    // add a paragraph to hold the error text, append, and add the text
                                     var errText = $("<p>");
                                     contentCon.append(errText);
                                     errText.text("Sorry, no options match that activity in this area.");
-                                  }
+                                }
 
-                                  else {
+                                // if the response returns results:
+                                else {
+
+                                    // loop through the length of the response
                                     for (var i = 0; i < response3.places.length; i++ ){
+
+                                        // create buttons for each response item
                                         var trailbutton = "<button class='waves-effect waves-light btn-large card-color trail-btn'  value=" +[i]+ " style='width: 100%'>" + response3.places[i].name + "</button>";
+
+                                        // append to the card that holds the activity content
                                         $(contentCon).append(trailbutton);
                                     };
+
+                                    // create the area that will house the individual activities the user clicks
+                                    var infoArea = $("<div class='card' style='display: none'>");
                                     
+                                    // listen for clicks on the newly created trail buttons
                                     $(".trail-btn").on("click", function(){
+
                                         var index = $(this).attr("value");
                                         infoArea.css('display', 'block');
                                         infoArea.empty();
@@ -282,6 +283,15 @@ function entireJavascript(){
                                         var tableHead = $("<th id='activity-name'>");
                                         var tr2 = $("<tr>");
                                         var tableBody = $("<td id='activity-descr'>");
+                                        table.append(tr1);
+                                        table.append(tr2);
+                                        tr1.append(tableHead);
+                                        tr2.append(tableBody);
+                                        infoArea.append(table);
+
+                                        
+                        
+                                        // add a title to the table with the name of the 
                                         tableHead.text(response3.places[index].name);
 
                                         if (response3.places[index].activities["0"].description == null) {
@@ -290,14 +300,7 @@ function entireJavascript(){
 
                                         else {
                                             tableBody.html(response3.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + response3.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
-                                        }                               
-
-                                        table.append(tr1);
-                                        table.append(tr2);
-                                        tr1.append(tableHead);
-                                        tr2.append(tableBody);
-                                        infoArea.append(table);
-                                
+                                        }                                                               
                                      });
                                 }
                         });
@@ -338,26 +341,12 @@ function entireJavascript(){
                                     };
 
                                     $(".trail-btn").on("click", function(){
-                                        var index = $(this).attr("value");
-                                        infoArea.css('display', 'block');
-                                        infoArea.empty();
-                                        var table = $("<table>");
-                                        var tr1 = $("<tr>");
-                                        var tableHead = $("<th id='activity-name'>");
-                                        var tr2 = $("<tr>");
-                                        var tableBody = $("<td id='activity-descr'>");
+                                        displayActivity();
+
                                         tableHead.text(response4.results[index].name);
         
-                                        
                                         tableBody.html("Address: " + response4.results[index].formatted_address + "<br> Rating: " + response4.results[index].rating + "/5" )
-                                                                     
-        
-                                        table.append(tr1);
-                                        table.append(tr2);
-                                        tr1.append(tableHead);
-                                        tr2.append(tableBody);
-                                        infoArea.append(table);
-
+                                                                    
                                     });
                                 }
                             });
@@ -400,10 +389,9 @@ function entireJavascript(){
                                 });
                             }
 
-                        // create the area that will house the individual activities the user clicks
-                        var infoArea = $("<div class='card' style='display: none'>");
+                        
 
-                        // append it to the map column
+                        // append the info area to the map column
                         (mapCol).append(infoArea);
 
                          // create a column to house the dynamic content
