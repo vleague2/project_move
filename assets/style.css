@@ -190,6 +190,12 @@ body {
     font-size: 20px;
 }
 
+/* Google Map sizing */
+#map {
+    width: 500px;
+    height: 350px;
+}
+
 /* Media Queries */
 
 /* Mobile */

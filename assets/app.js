@@ -1,3 +1,28 @@
+var mapMarker = {
+    lat: null,
+    long: null
+};
+
+console.log(mapMarker);
+
+function initMap() {
+
+    var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
+    console.log(myLatLng)
+
+    var map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 12,
+    center: myLatLng
+    });
+    console.log(map);
+    
+    var marker = new google.maps.Marker({
+    position: myLatLng,
+    map: map,
+    title: ''
+    });
+};
+
 // Initialize Firebase
 var config = {
      apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
@@ -92,10 +117,10 @@ function searchFunction(){
                 var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
 
                 // pull the location's latitude from the API
-                var lat = response.city.coord.lat;
+                mapMarker.lat = response.city.coord.lat;
 
                 // Pull the location's longitude from the API
-                var long = response.city.coord.lon;
+                mapMarker.long = response.city.coord.lon;
                     
                 // Add a container that will hold all of the dynamic content and append it to the page
                 var container = $("<div class='container' id='dynamic-container'>");
@@ -307,6 +332,30 @@ function searchFunction(){
                                     tr1.append(tableHead);
                                     tr2.append(tableBody);
                                     infoArea.append(table);
+
+                                    mapMarker.lat = response3.places[index].lat;
+                                    mapMarker.long = response3.places[index].lon;
+                                    
+                                    console.log(mapMarker);
+
+                                    addMarker();
+
+                                    function addMarker(location, map){
+                                        var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
+                                        
+                                        var map = new google.maps.Map(document.getElementById("map"), {
+                                            zoom: 12,
+                                            center: myLatLng
+                                        });
+                                            console.log(map);
+                                        
+                                        var marker = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            title: 'Does this work?'
+                                        });
+                                            console.log(myLatLng);
+                                    }
                                 });
                             }
                         });
@@ -323,7 +372,7 @@ function searchFunction(){
                         contentTitle.text("Activity Options");
 
                         // define the URL for the google places API
-                        var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + lat + "," + long + "&radius=40000";
+                        var queryURL3 = "https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=" + mapMarker.lat + "," + mapMarker.long + "&radius=40000";
 
                         console.log(queryURL3);
 
@@ -379,6 +428,30 @@ function searchFunction(){
                                     tr1.append(tableHead);
                                     tr2.append(tableBody);
                                     infoArea.append(table);
+
+                                    mapMarker.lat = response4.results[index].geometry.location.lat;
+                                    mapMarker.long = response4.results[index].geometry.location.lng;
+                                    
+                                    console.log(mapMarker);
+
+                                    addMarker();
+
+                                    function addMarker(location, map){
+                                        var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
+                                        
+                                        var map = new google.maps.Map(document.getElementById("map"), {
+                                            zoom: 12,
+                                            center: myLatLng
+                                        });
+                                            console.log(map);
+                                        
+                                        var marker = new google.maps.Marker({
+                                            position: myLatLng,
+                                            map: map,
+                                            title: 'Does this work?'
+                                        });
+                                            console.log(myLatLng);
+                                    };
                                 });
                             }
                         });
@@ -391,30 +464,10 @@ function searchFunction(){
                     mapRow.append(mapCol);
 
                     // Identify the API key for the map
-                    var gmapAPIkey = "AIzaSyCSpUf0-RBtpwK-L4G2jhvJC9OqABx9aaY";
+                    var gmapAPIkey = "AIzaSyCjHs6XkqXNSn2glWRVOqAdisf8xDJoFlg";
                 
                     // Append the map to the map column
-                    $(mapCol).append("<iframe width='100%' height='350' frameborder='0' style='border:0' src='https://www.google.com/maps/embed/v1/search?key=" + gmapAPIkey + "&q=" + userCity + "' allowfullscreen></iframe>");
-                            
-                    // Initialize the map
-                    function initMap() {
-
-                        // create a more simple variable for this area using the lat and long we pulled above
-                        var myLatLng = {lat, long};
-
-                        // Uh...
-                        var map = new google.maps.Map(document.getElementById('map'), {
-                        zoom: 4,
-                        center: myLatLng
-                        });
-
-                        // ?????
-                        var marker = new google.maps.Marker({
-                        position: myLatLng,
-                        map: map,
-                        title: 'Hello World!'
-                        });
-                    }
+                    $(mapCol).append("<script async defer                           src='https://maps.googleapis.com/maps/api/js?key=" + gmapAPIkey + "&callback=initMap'></script>");
                         
                     // create the area that will house the individual activities the user clicks & append
                     var infoArea = $("<div class='card' style='display: none'>");
