@@ -179,6 +179,10 @@ body {
     padding-left: 20px;
 }
 
+#activity-name {
+    color: #86ac41;
+}
+
 /* Select Activity Text on dynamic page */
 .selectAct {
     color: #86ac41;
