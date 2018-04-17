@@ -13,9 +13,6 @@ firebase.initializeApp(config);
 // Assign the database to a variable
 var database = firebase.database();
 
-// Create an empty array where we will push all searched cities
-var citiesArray =[];
-
 // When the user clicks the search button
 $("#user").on("click", function() {
     searchFunction();
@@ -66,10 +63,6 @@ function searchFunction(){
             // Once data is retrieved from API...
             success: function(response) {
                 console.log(response);
-
-                // push the user input to the array
-                citiesArray.push(userCity),
-                    console.log(citiesArray);
 
                 // push the city into the database (needs work for array)
                 database.ref().push({
@@ -168,7 +161,7 @@ function searchFunction(){
                     }
 
                     else if (nowWeather == "Rain") {
-                        newWeatherContent.append("<p class='center-align'>It might be a good idea to stay home or go to the gym.</p>");
+                        newWeatherContent.append("<p class='center-align'>If the weather </p>");
                     }
 
                     else if (nowWeather == "Snow") {
