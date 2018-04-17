@@ -1,32 +1,3 @@
-/* navy blue {
-    #0d1d23
-};
-
-fancy green {
-    #86ac41
-};
-
-navy blue {
-    #34675c;
-};
-
-pastel blue {
-    #7da3a1
-};
-
-off white {
-    #fffffa
-}; */
-
-/* this is the source image and background resizing.
-/* img{
-    background: url(assets/images/waterfall.jpg)
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: auto;
-<img src="assets/images/waterfall.jpg" alt="">
-} */
-
 /* Page Foundation */
 
 body {
@@ -37,7 +8,7 @@ body {
 
     main {
     flex: 1 0 auto;
-    background-image: url("images/waterfall.dark.jpg");
+    background-image: url("images/waterfall2.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
@@ -89,6 +60,7 @@ body {
 
     /* Search section */
 
+
     .statement {
         font-family: 'Khula', sans-serif;
         font-weight: bold;
@@ -98,7 +70,6 @@ body {
         background-color: rgba(26, 25, 25, 0.8);
         border-radius: 10px;
         padding: 60px;
-        /* box-shadow: 20px 20px 50px 15px black; */
     }
     
     .search-btn {
@@ -162,9 +133,7 @@ body {
 /* Dynamic Page */
 
  #dynamic-container {
-    /* background-color: hsla(167, 50%, 40%, 0.5);
-    transition: background-color linear 1s; */
-    background-color: rgba(26, 25, 25, 0.7);
+    background-color: rgba(27, 29, 34, 0.7);
     height: 100%;
     padding-left: 30px;
     padding-right: 30px;
@@ -178,6 +147,18 @@ body {
     color: white;
 }
 
+.trail-btn {
+    margin-bottom: 15px;
+    background-color: #7da3a1;
+}
+
+.trail-btn:focus {
+    background-color: #0d1d23; 
+}
+
+#activity-name, #activity-descr {
+    padding-left: 20px;
+}
 
 /* Media Queries */
 
