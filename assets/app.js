@@ -3,6 +3,8 @@ var mapMarker = {
     long: null
 };
 
+
+
 console.log(mapMarker);
 
  function initMap() {
@@ -307,8 +309,9 @@ function entireJavascript(){
                                   
                                     $(".trail-btn").on("click", function(){
                                         var index = $(this).attr("value");
-                                        infoArea.css('display', 'block');
-                                        infoArea.empty();
+                                        // infoArea.css('display', 'block');
+                                        // infoArea.empty();
+                                        var infoTable = $("<div class='card'>");
                                         var table = $("<table>");
                                         var tr1 = $("<tr>");
                                         var tableHead = $("<th id='activity-name'>");
@@ -439,7 +442,7 @@ function entireJavascript(){
 
                         // create the area that will house the individual activities the user clicks
                         var infoArea = $("<div class='card' style='display: none'>");
-
+                       
                         // append it to the map column
                         (mapCol).append(infoArea);
 
