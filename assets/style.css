@@ -191,6 +191,11 @@ body {
     font-size: 20px;
 }
 
+/* Google Map sizing */
+#map {
+    height: 350px;
+}
+
 /* Media Queries */
 
 /* Mobile */
