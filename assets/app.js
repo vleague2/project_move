@@ -188,7 +188,7 @@ function searchFunction(){
                     promptCard.append(promptCon);
                         
                     // Add text inside the card
-                    promptCon.append("<h5> What would you like to do? </h5>");
+                    promptCon.append("<h5 class='question'> What would you like to do? </h5>");
 
 
                 // BUTTON GENERATION & FUNCTIONALITY SECTION
@@ -429,7 +429,7 @@ function searchFunction(){
                     contentCol.append(contentCard);
 
                     // create the card content & append
-                    var contentCon =$("<div class='card-content center-align'>");
+                    var contentCon =$("<div class='card-content selectAct center-align'>");
                     contentCard.append(contentCon);
 
                     // Create the title of the card & append it
