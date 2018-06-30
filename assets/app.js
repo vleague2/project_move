@@ -41,7 +41,7 @@ $("#usercity").keyup(function(event) {
 
 
 // **************************************************************************
-// function to initiatlize the Google map
+// function to initialize the Google map
 function initMap() {
 
     let myLatLng = {
@@ -62,44 +62,48 @@ function initMap() {
     });
 };
 
-
+// function to get the weather from the open weather API
 function getWeather(city) {
 
-    // query parameter for open weather API
-    let openWeatherParam = "&q="+city;
+    return new Promise((resolve, reject) => {
 
-    // open weather query for ajax call
-    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + openWeatherParam + "&APPID=9155ad4470b3c881f026f9305727169c";
+        // query parameter for open weather API
+        let openWeatherParam = "&q="+city;
 
-    // AJAX call for Open Weather API
-    $.ajax({
-        url: queryURL,
-        method: "GET",
+        // open weather query for ajax call
+        let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + openWeatherParam + "&APPID=9155ad4470b3c881f026f9305727169c";
 
-        // If we receive an error message...
-        error: function(response, error) {
-            console.log(error);
-            $(".helper-text").text("Please enter a valid city.");
-        },
+        // AJAX call for Open Weather API
+        $.ajax({
+            url: queryURL,
+            method: "GET",
 
-        // Once data is retrieved from API...
-        success: function(response) {
-            console.log(response);
+            // If we receive an error message...
+            error: function(response, error) {
+                console.log(error);
+                $(".helper-text").text("Please enter a valid city.");
 
-            // push the city into the database (needs work for array)
-            database.ref().push({
-                City: city,
-            });
+                // reject the promise so no code runs
+                reject();
+            },
 
-            // hide the home page so we can load the search results
-            setUpNewPage();
+            // Once data is retrieved from API...
+            success: function(response) {
+                console.log(response);
 
-            // pass in the response from the api to update the weather info on the page
-            updateWeather(response);
-        }
+                // push the city into the database (needs work for array)
+                database.ref().push({
+                    City: city,
+                });
+
+                // resolve the promise so the code can continue
+                resolve(response);
+            }
+        })
     })
 }
 
+// function to hide search page and display results page
 function setUpNewPage() {
    // hide the search screen on the homepage
    $(".search-content").css('display', 'none'); 
@@ -119,21 +123,29 @@ function setUpNewPage() {
 
    $("main").append(container);
 
-   // rows to house content sections, and append to the container
-   let weatherRow = $("<div class='row' id='weather-row'>");
-   let promptRow = $("<div class='row' id='prompt-row'>");
-   let buttonRow = $("<div class='row' id='button-row'>");
-   let buttonRow2 = $("<div class='row' id='button-row-2' style='margin-bottom: 40px'>")
-   let resultRow = $("<div class='row' id='result-row'>");
-   let mapRow = $("<div class='row' id='map-row' style='margin-bottom: 60px'>");
-   
-   container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
 
-   // append our infoArea column to the result row
-   resultRow.append(infoAreaCol);
+   // rows to house content sections, and append to the container
+        let weatherRow = $("<div class='row' id='weather-row'>");
+        let promptRow = $("<div class='row' id='prompt-row'>");
+        let buttonRow = $("<div class='row' id='button-row'>");
+        let buttonRow2 = $("<div class='row' id='button-row-2' style='margin-bottom: 40px'>")
+        let resultRow = $("<div class='row' id='result-row'>");
+        let mapRow = $("<div class='row' id='map-row' style='margin-bottom: 60px'>");
+
+        container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
+
+        // create the area that will house the individual activities the user clicks & append
+        let infoAreaCol = $("<div class='col m10 offset-m1' id='info-area-col'>");
+
+        let infoArea = $("<div class='card' id='info-area' style='display: block'>");
+
+        // append our infoArea column to the result row
+        resultRow.append(infoAreaCol);
 }
 
 function updateWeather(response) {
+
+
     // Pull the current weather from the API and store in a variable
     let nowWeather = response.list["0"].weather["0"].main;
 
@@ -152,22 +164,90 @@ function updateWeather(response) {
     // Pull the location's longitude from the API
     mapMarker.long = response.city.coord.lon;
         
+    // WEATHER DYNAMIC PAGE CONTENT
+                
+        // Column to house weather info, append to the correct row
+        let weatherCol2 = $("<div class='col m12' style='margin-top: 60px'>");
+        
+        $('#weather-row').append(weatherCol2);
+
+        // Make the div that will show the current weather; this is the card container. & append 
+        let newWeatherDiv = $("<div class='card' id='weatherCard'>");
+
+        weatherCol2.append(newWeatherDiv);
+
+        // Make a div for Materialize's card stack; append
+        let newWeatherCard = $("<div class='card-stacked'>");
+
+        newWeatherDiv.append(newWeatherCard);
+
+        // make a div that identifies the card content; append
+        let newWeatherContent = $("<div class='card-content' id='new-weather-content'>");
+        
+        newWeatherCard.append(newWeatherContent);
+
+        // Adding in the text for the card - title
+        newWeatherContent.append("<p style='font-size: 20px' class='center-align'>Weather conditions for " + response.city.name + "</p><br>")
+
+        // Append a P tag that will hold the weather info
+        newWeatherContent.append("<p class='center-align'>Next 3 hours:<br>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
     
+        weatherSuggestion(nowWeather);
 }
 
+function weatherSuggestion(weather) {
+
+    // Append a suggestion about the weather & insert appropriate weather image
+
+    let weatherSuggestion = "";
+    let weatherImage = "";
+
+    switch (weather) {
+        case "Clouds":
+
+            weatherSuggestion = "Today would be a great day for hiking or biking!" 
+            
+            weatherImage = "clouds.jpg";
+
+            break;
+
+        case "Rain":
+            weatherSuggestion = "It might be a good idea to head to the gym!";
+
+            weatherImage = "rain_large.jpg";
+
+            break;
+
+        case "Snow":
+            weatherSuggestion = "It might be a good idea to head to the gym!";
+
+            weatherImage = "snow2.jpg";
+
+            break;
+
+        default:
+            weatherSuggestion = "It's a beautiful day to visit a park or go camping!";
+
+            weatherImage = "sun.jpg";
+
+            console.log("default");
+            break;
+    }  
+
+    $('#newWeatherContent').append(`<p class='center-align'>${weatherSuggestion}</p>`);
+
+    $('#weatherCard').css("background-image", `url("assets/images/${weatherImage}")`);
+}
 
 // The code for the site depends on the weather app to run, so it is contained in this function  
 function searchFunction(){
 
-    // create the area that will house the individual activities the user clicks & append
-    var infoAreaCol = $("<div class='col m10 offset-m1'>")
-    var infoArea = $("<div class='card' style='display: block'>");
-    
     // Pull the value from the search form
-    var userCity = $("#usercity").val().trim();
+    let userCity = $("#usercity").val().trim();
 
     // make the city lowercase so the data is standardized in our database
     userCity = userCity.toLowerCase();
+    
     console.log("userCity: " + userCity);
   
     // input validation -- make sure they are entering enough characters
@@ -178,7 +258,19 @@ function searchFunction(){
     // if the input is long enough...
     else {
         // *************************************************************************************************************************************************************************************
-        getWeather(userCity);
+        // call API to get the weather for the city the user entered
+        getWeather(userCity)
+        .then(response => {
+
+            // hide the home page so we can load the search results
+            setUpNewPage();
+
+            // pass in the response from the api to update the weather info on the page
+            updateWeather(response);
+        });
+    }
+}
+    /*
          // *************************************************************************************************************************************************************************************
         // query parameter for open weather API
         var openWeatherparam = "&q="+userCity
@@ -597,3 +689,4 @@ function searchFunction(){
         });
     };
 };
+*/
