@@ -1,42 +1,31 @@
-var mapMarker = {
+// *************************************************************
+// Configuration
+
+// Initialize Firebase
+const config = {
+    apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
+    authDomain: "project-move-1523543773098.firebaseapp.com",
+    databaseURL: "https://project-move-1523543773098.firebaseio.com",
+    projectId: "project-move-1523543773098",
+    storageBucket: "",
+    messagingSenderId: "101064034892"
+};
+
+firebase.initializeApp(config);
+
+// Assign firebase to a variable
+const database = firebase.database();
+
+// initialize map marker
+const mapMarker = {
     lat: null,
     long: null
 };
 
 console.log(mapMarker);
 
-function initMap() {
-
-    var myLatLng = {lat: mapMarker.lat, lng: mapMarker.long};
-    console.log(myLatLng)
-
-    var map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 12,
-    center: myLatLng
-    });
-    console.log(map);
-    
-    var marker = new google.maps.Marker({
-    position: myLatLng,
-    map: map,
-    title: ''
-    });
-};
-
-// Initialize Firebase
-var config = {
-     apiKey: "AIzaSyC1PojpHjoTN9wfR-eKil9jcxbGvZeJ-6I",
-     authDomain: "project-move-1523543773098.firebaseapp.com",
-     databaseURL: "https://project-move-1523543773098.firebaseio.com",
-     projectId: "project-move-1523543773098",
-     storageBucket: "",
-     messagingSenderId: "101064034892"
-};
-
-firebase.initializeApp(config);
-
-// Assign the database to a variable
-var database = firebase.database();
+// *************************************************************************
+// Event listeners
 
 // When the user clicks the search button
 $("#user").on("click", function() {
@@ -49,6 +38,123 @@ $("#usercity").keyup(function(event) {
         searchFunction();
     }
 });
+
+
+// **************************************************************************
+// function to initiatlize the Google map
+function initMap() {
+
+    let myLatLng = {
+        lat: mapMarker.lat, 
+        lng: mapMarker.long
+    };
+
+    // use the 0 index to access the DOM object
+    let map = new google.maps.Map(($("#map")[0]), {
+        zoom: 12,
+        center: myLatLng
+    });
+    
+    let marker = new google.maps.Marker({
+        position: myLatLng,
+        map: map,
+        title: ''
+    });
+};
+
+
+function getWeather(city) {
+
+    // query parameter for open weather API
+    let openWeatherParam = "&q="+city;
+
+    // open weather query for ajax call
+    let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + openWeatherParam + "&APPID=9155ad4470b3c881f026f9305727169c";
+
+    // AJAX call for Open Weather API
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+
+        // If we receive an error message...
+        error: function(response, error) {
+            console.log(error);
+            $(".helper-text").text("Please enter a valid city.");
+        },
+
+        // Once data is retrieved from API...
+        success: function(response) {
+            console.log(response);
+
+            // push the city into the database (needs work for array)
+            database.ref().push({
+                City: city,
+            });
+
+            // hide the home page so we can load the search results
+            setUpNewPage();
+
+            // pass in the response from the api to update the weather info on the page
+            updateWeather(response);
+        }
+    })
+}
+
+function setUpNewPage() {
+   // hide the search screen on the homepage
+   $(".search-content").css('display', 'none'); 
+
+   // Add a back button so they can choose search again -- links to home page
+        let backbutton = $( "<li>");
+
+        let backbuttonLink = $("<a href='index.html'>Back to Search</a>");
+
+        backbutton.append(backbuttonLink);
+
+        $("#nav-mobile").append(backbutton);
+
+
+   // Add a container that will hold all of the dynamic content and append it to the page
+   let container = $("<div class='container' id='dynamic-container'>");
+
+   $("main").append(container);
+
+   // rows to house content sections, and append to the container
+   let weatherRow = $("<div class='row' id='weather-row'>");
+   let promptRow = $("<div class='row' id='prompt-row'>");
+   let buttonRow = $("<div class='row' id='button-row'>");
+   let buttonRow2 = $("<div class='row' id='button-row-2' style='margin-bottom: 40px'>")
+   let resultRow = $("<div class='row' id='result-row'>");
+   let mapRow = $("<div class='row' id='map-row' style='margin-bottom: 60px'>");
+   
+   container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
+
+   // append our infoArea column to the result row
+   resultRow.append(infoAreaCol);
+}
+
+function updateWeather(response) {
+    // Pull the current weather from the API and store in a variable
+    let nowWeather = response.list["0"].weather["0"].main;
+
+    // Pull the description of the current weather from the API and store in a variable
+    var nowWeatherDescription = response.list["0"].weather["0"].description;
+
+    // Pull the humidity value from the API and store in a variable
+    var humidity = response.list["0"].main.humidity;
+
+    // Pull and round the current temperature converted to F, store in a variable
+    var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+
+    // pull the location's latitude from the API
+    mapMarker.lat = response.city.coord.lat;
+
+    // Pull the location's longitude from the API
+    mapMarker.long = response.city.coord.lon;
+        
+    
+}
+
 
 // The code for the site depends on the weather app to run, so it is contained in this function  
 function searchFunction(){
@@ -71,7 +177,9 @@ function searchFunction(){
 
     // if the input is long enough...
     else {
-        
+        // *************************************************************************************************************************************************************************************
+        getWeather(userCity);
+         // *************************************************************************************************************************************************************************************
         // query parameter for open weather API
         var openWeatherparam = "&q="+userCity
 
