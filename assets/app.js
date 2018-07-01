@@ -22,27 +22,19 @@ const mapMarker = {
     long: null
 };
 
+// initialize usercity choice
+let userCity = "";
+
+// create a variable to store trails
+let trails;
+
 console.log(mapMarker);
 
-// *************************************************************************
-// Event listeners
-
-// When the user clicks the search button
-$("#user").on("click", function() {
-    searchFunction();
-});
-
-// Allow the user to hit enter to search
-$("#usercity").keyup(function(event) {
-    if (event.keyCode === 13) {
-        searchFunction();
-    }
-});
 
 
 // **************************************************************************
 // function to initialize the Google map
-function initMap() {
+function initMap(name = "") {
 
     let myLatLng = {
         lat: mapMarker.lat, 
@@ -58,20 +50,21 @@ function initMap() {
     let marker = new google.maps.Marker({
         position: myLatLng,
         map: map,
-        title: ''
+        title: name
     });
 };
 
+
 // function to get the weather from the open weather API
-function getWeather(city) {
+function getWeather() {
 
     return new Promise((resolve, reject) => {
 
         // query parameter for open weather API
-        let openWeatherParam = "&q="+city;
+        let openWeatherParam = `&q=${userCity}`;
 
         // open weather query for ajax call
-        let queryURL = "https://api.openweathermap.org/data/2.5/forecast?" + openWeatherParam + "&APPID=9155ad4470b3c881f026f9305727169c";
+        let queryURL = `https://api.openweathermap.org/data/2.5/forecast?${openWeatherParam}&APPID=9155ad4470b3c881f026f9305727169c`;
 
         // AJAX call for Open Weather API
         $.ajax({
@@ -93,7 +86,7 @@ function getWeather(city) {
 
                 // push the city into the database (needs work for array)
                 database.ref().push({
-                    City: city,
+                    City: userCity,
                 });
 
                 // resolve the promise so the code can continue
@@ -103,7 +96,7 @@ function getWeather(city) {
     })
 }
 
-// function to hide search page and display results page
+// function to hide search page and display results page. basically all of the dynamically added structure is here
 function setUpNewPage() {
    // hide the search screen on the homepage
    $(".search-content").css('display', 'none'); 
@@ -124,7 +117,7 @@ function setUpNewPage() {
    $("main").append(container);
 
 
-   // rows to house content sections, and append to the container
+   // MAIN DYNAMIC CONTENT CONTAINERS
         let weatherRow = $("<div class='row' id='weather-row'>");
         let promptRow = $("<div class='row' id='prompt-row'>");
         let buttonRow = $("<div class='row' id='button-row'>");
@@ -134,36 +127,6 @@ function setUpNewPage() {
 
         container.append(weatherRow).append(promptRow).append(buttonRow).append(buttonRow2).append(resultRow).append(mapRow);
 
-        // create the area that will house the individual activities the user clicks & append
-        let infoAreaCol = $("<div class='col m10 offset-m1' id='info-area-col'>");
-
-        let infoArea = $("<div class='card' id='info-area' style='display: block'>");
-
-        // append our infoArea column to the result row
-        resultRow.append(infoAreaCol);
-}
-
-function updateWeather(response) {
-
-
-    // Pull the current weather from the API and store in a variable
-    let nowWeather = response.list["0"].weather["0"].main;
-
-    // Pull the description of the current weather from the API and store in a variable
-    var nowWeatherDescription = response.list["0"].weather["0"].description;
-
-    // Pull the humidity value from the API and store in a variable
-    var humidity = response.list["0"].main.humidity;
-
-    // Pull and round the current temperature converted to F, store in a variable
-    var temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
-
-    // pull the location's latitude from the API
-    mapMarker.lat = response.city.coord.lat;
-
-    // Pull the location's longitude from the API
-    mapMarker.long = response.city.coord.lon;
-        
     // WEATHER DYNAMIC PAGE CONTENT
                 
         // Column to house weather info, append to the correct row
@@ -186,18 +149,117 @@ function updateWeather(response) {
         
         newWeatherCard.append(newWeatherContent);
 
-        // Adding in the text for the card - title
-        newWeatherContent.append("<p style='font-size: 20px' class='center-align'>Weather conditions for " + response.city.name + "</p><br>")
+    // USER CHOICE DYNAMIC CONTENT
 
-        // Append a P tag that will hold the weather info
-        newWeatherContent.append("<p class='center-align'>Next 3 hours:<br>" + nowWeatherDescription + " | " + humidity + "% humidity | " + temperature + " &#176 F</p><br>")
+        // Column to house the user choice prompt & append to the page
+        let promptCol =$("<div class='col m10 offset-m1 center-align'>");
+        promptRow.append(promptCol);
+                
+        // Create a card to format the text & append
+        let promptCard =$("<div class='card'>");
+        promptCol.append(promptCard);
+                
+        // Create the card content & append
+        let promptCon = $("<div class='card-content'>");
+        promptCard.append(promptCon);
+            
+        // Add text inside the card
+        promptCon.append("<h5 class='question'> What would you like to do? </h5>"); 
+        
+    // BUTTON GENERATION
+
+        // Create four columns, one for each button
+        let buttonCol0 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+
+        let buttonCol1 = $("<div class='activity-btns col m5 center-align'>");
+
+        let buttonCol2 = $("<div class='activity-btns btn-hiking-camping col m5 offset-m1 center-align'>");
+
+        let buttonCol3 = $("<div class='activity-btns col m5 center-align'>");
+        
+        // Append the buttons to the appropriate rows
+        buttonRow.append(buttonCol0).append(buttonCol1);
+        buttonRow2.append(buttonCol2).append(buttonCol3);
+
+        // Add the buttons themselves & add the correct labels
+        buttonCol0.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='hiking' style='width: 100%'>Hiking</button>");
+
+        buttonCol1.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='mountain+biking' style='width: 100%'>Mountain Biking</button>");
+        
+        buttonCol2.append("<button class='waves-effect waves-light btn-large card-color activity-btn' value='camping' style='width: 100%'>Camping</button>");
+
+        buttonCol3.append("<button class='waves-effect waves-light btn-large card-color places-btn' value='4' style='width: 100%'>Visit a Park</button>");
+
+    // create the area that will house the individual activities the user clicks & append
+        let infoAreaCol = $("<div class='col m10 offset-m1' id='info-area-col'>");
+
+        let infoArea = $("<div class='card' id='info-area' style='display: block'>");
+
+        // append our infoArea column to the result row
+        resultRow.append(infoAreaCol);
     
-        weatherSuggestion(nowWeather);
+
+    // MAP ROW SECTION
+                        
+        // Create a column to house the map & append
+        let mapCol = $("<div class='col m7' id='map'>");
+        mapRow.append(mapCol);
+
+        // Identify the API key for the map
+        let gmapAPIkey = "AIzaSyCjHs6XkqXNSn2glWRVOqAdisf8xDJoFlg";
+    
+        // Append the map to the map column
+        $(mapCol).append(`<script async defer src='https://maps.googleapis.com/maps/api/js?key=${gmapAPIkey}&callback=initMap'></script>`);
+
+    // create a column to house the activity options & append
+        let contentCol = $("<div class='col m5'>");
+        mapRow.append(contentCol);
+
+        // create the card to format the activity option text & append
+        let contentCard =$("<div class='card' style='margin-top: 0px'>");
+        contentCol.append(contentCard);
+
+        // create the card content & append
+        let contentCon =$("<div class='card-content selectAct center-align' id='content-con'>");
+        contentCard.append(contentCon);
+    
+        // Add the title text
+        contentCon.text("Select an activity.");    
+}    
+
+// function to grab weather results and add to page
+function updateWeather(response) {
+    // Pull the current weather from the API and store in a variable
+    let nowWeather = response.list["0"].weather["0"].main;
+
+    // Pull the description of the current weather from the API and store in a variable
+    let nowWeatherDescription = response.list["0"].weather["0"].description;
+
+    // Pull the humidity value from the API and store in a variable
+    let humidity = response.list["0"].main.humidity;
+
+    // Pull and round the current temperature converted to F, store in a variable
+    let temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+
+    // pull the location's latitude from the API
+    mapMarker.lat = response.city.coord.lat;
+
+    // Pull the location's longitude from the API
+    mapMarker.long = response.city.coord.lon;
+        
+    // Adding in the text for the card - title
+    $("#new-weather-content").append(`<p style='font-size: 20px' class='center-align'>Weather conditions for ${response.city.name} </p><br>`)
+
+    // Append a P tag that will hold the weather info
+    $("#new-weather-content").append(`<p class='center-align'>Next 3 hours:<br>  ${nowWeatherDescription} | ${humidity}% humidity | ${temperature} &#176 F</p><br>`)
+
+    weatherSuggestion(nowWeather);
 }
 
+// function to suggest activities
 function weatherSuggestion(weather) {
 
-    // Append a suggestion about the weather & insert appropriate weather image
+    // choose an activity suggestion based on the weather
 
     let weatherSuggestion = "";
     let weatherImage = "";
@@ -234,16 +296,18 @@ function weatherSuggestion(weather) {
             break;
     }  
 
+    // append weather suggestion and weather image to the page
     $('#newWeatherContent').append(`<p class='center-align'>${weatherSuggestion}</p>`);
 
     $('#weatherCard').css("background-image", `url("assets/images/${weatherImage}")`);
 }
 
-// The code for the site depends on the weather app to run, so it is contained in this function  
-function searchFunction(){
+
+// function to check the user's city input
+function citySearch(){
 
     // Pull the value from the search form
-    let userCity = $("#usercity").val().trim();
+    userCity = $("#usercity").val().trim();
 
     // make the city lowercase so the data is standardized in our database
     userCity = userCity.toLowerCase();
@@ -259,7 +323,7 @@ function searchFunction(){
     else {
         // *************************************************************************************************************************************************************************************
         // call API to get the weather for the city the user entered
-        getWeather(userCity)
+        getWeather()
         .then(response => {
 
             // hide the home page so we can load the search results
@@ -270,6 +334,135 @@ function searchFunction(){
         });
     }
 }
+
+function activitySearch(active) {
+    // empty the card that contains the activity options (card is created below)
+    $("#content-con").empty();
+
+    // Add the title text
+    $("#content-con").text("Activity Options");
+
+    // Create the trail API parameters
+    let trailParameters = `?limit=10&q[activities_activity_type_name_eq]=${active}&q[city_cont]=${userCity}&radius=25`;
+
+    // assemble the query URL for the trail API
+    var queryURL = `https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/${trailParameters}`;
+                    
+    // initiate ajax call to the API
+    $.ajax({
+        url: queryURL,
+        method: "GET",
+        headers: {
+            "X-Mashape-Key":"UAIZZbiYBYmshS9WHNnVPYPKLg0Mp199qK4jsn409p32gnYRrE",
+            "Accept": "text/plain"
+        }                      
+    }).then(function(response) {
+        // add a message for the user if the response returns no results
+        if (response.places.length < 1) {
+                            
+            // add a paragraph to hold the error text, append, and add the text
+            var errText = $("<p>");
+
+            $("#content-con").append(errText);
+
+            errText.text("Sorry, no options match that activity in this area.");
+        }
+
+        // if the response returns results:
+        else {
+
+            trails = response;
+
+            createTrailButtons();
+        }
+    })
+}
+
+
+function createTrailButtons() {
+    // loop through the length of the trails
+    for (var i = 0; i < trails.places.length; i++ ){
+
+        // create buttons for each trails item
+        var trailbutton = `<button class='waves-effect waves-light btn-large card-color trail-btn'  value=${[i]} style='width: 100%'> ${trails.places[i].name} </button>`;
+
+        // append to the card that holds the activity content
+        $("#content-con").append(trailbutton);
+    }
+}
+
+function displayTrails(index) {
+    // make the infoArea visible & empty it
+    $("#info-area").css('display', 'block').empty();
+
+    $("#info-area-col").append($("#info-area"));
+
+    // build table dynamically
+    let table = $("<table>");
+    let tr1 = $("<tr>");
+    let tableHead = $("<th id='activity-name'>");
+    let tr2 = $("<tr>");
+    let tableBody = $("<td id='activity-descr'>");
+
+    // add a title to the table with the name of the location
+    tableHead.text(trails.places[index].name);
+
+    // if the activity does not have a description
+    if (trails.places[index].activities["0"].description == null) {
+        tableBody.html("<em> Sorry, this location does not have a description. </em>")
+    }
+
+    // otherwise, add the description to the body
+    else {
+        tableBody.html(trails.places[index].activities["0"].description  + "<br> <br>" + "<a target='_blank' href='" + trails.places[index].activities["0"].url + "'>" + "Click here to learn more. </a>");
+    }
+    
+    // append everything
+    table.append(tr1);
+    table.append(tr2);
+    tr1.append(tableHead);
+    tr2.append(tableBody);
+    $("#info-area").append(table);
+
+    mapMarker.lat = trails.places[index].lat;
+
+    mapMarker.long = trails.places[index].lon;
+
+    initMap(trails.places[index].name);
+}
+
+
+
+// *************************************************************************
+// Event listeners
+
+// When the user clicks the search button
+$("#user").on("click", function() {
+    citySearch();
+});
+
+// Allow the user to hit enter to search
+$("#usercity").keyup(function(event) {
+    if (event.keyCode === 13) {
+        citySearch();
+    }
+});
+
+// attaching as an event delegator to catch dynamically generated elements
+$("body").on("click", ".activity-btn", function(){
+    // Pull the value of the button the user clicked
+    let active = $(this).attr("value");
+    console.log(active);
+
+    activitySearch(active);
+});
+
+$("body").on("click", ".trail-btn", function(){
+    // pull the value of the clicked button
+    let index = $(this).attr("value");
+
+    displayTrails(index);
+});
     /*
          // *************************************************************************************************************************************************************************************
         // query parameter for open weather API
