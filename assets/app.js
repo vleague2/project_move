@@ -196,7 +196,7 @@ function setUpNewPage() {
         let infoArea = $("<div class='card' id='info-area' style='display: none'>");
 
         infoAreaCol.append(infoArea);
-        
+
         // append our infoArea column to the result row
         resultRow.append(infoAreaCol);
     
@@ -465,6 +465,11 @@ $("body").on("click", ".trail-btn", function(){
 
     displayTrails(index);
 });
+
+// need to do places button
+
+// try to fix the placement of the info area
+
     /*
          // *************************************************************************************************************************************************************************************
         // query parameter for open weather API
