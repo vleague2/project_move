@@ -193,8 +193,10 @@ function setUpNewPage() {
     // create the area that will house the individual activities the user clicks & append
         let infoAreaCol = $("<div class='col m10 offset-m1' id='info-area-col'>");
 
-        let infoArea = $("<div class='card' id='info-area' style='display: block'>");
+        let infoArea = $("<div class='card' id='info-area' style='display: none'>");
 
+        infoAreaCol.append(infoArea);
+        
         // append our infoArea column to the result row
         resultRow.append(infoAreaCol);
     
