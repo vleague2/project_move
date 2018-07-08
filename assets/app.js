@@ -25,8 +25,10 @@ const mapMarker = {
 // initialize usercity choice
 let userCity = "";
 
-// create a variable to store trails
+// create variables to store trails & places
 let trails;
+
+let places;
 
 console.log(mapMarker);
 
@@ -337,18 +339,12 @@ function citySearch(){
     }
 }
 
-function activitySearch(active) {
-    // empty the card that contains the activity options (card is created below)
-    $("#content-con").empty();
-
-    // Add the title text
-    $("#content-con").text("Activity Options");
-
+function trailAPI(active) {
     // Create the trail API parameters
     let trailParameters = `?limit=10&q[activities_activity_type_name_eq]=${active}&q[city_cont]=${userCity}&radius=25`;
 
     // assemble the query URL for the trail API
-    var queryURL = `https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/${trailParameters}`;
+    let queryURL = `https://cors-anywhere.herokuapp.com/https://trailapi-trailapi.p.mashape.com/${trailParameters}`;
                     
     // initiate ajax call to the API
     $.ajax({
@@ -375,18 +371,64 @@ function activitySearch(active) {
 
             trails = response;
 
-            createTrailButtons();
+            let target = trails.places;
+
+            createTrailButtons(target);
         }
     })
 }
 
+function placeAPI() {
+    // define the URL for the google places API
+    let queryURL = `https://cors-anywhere.herokuapp.com/https://maps.googleapis.com/maps/api/place/textsearch/json?query=park&key=AIzaSyDHo3GT-iOjN9IDB6VbfxLPxHzuQRonFBU&location=${mapMarker.lat},${mapMarker.long}&radius=40000`;
 
-function createTrailButtons() {
-    // loop through the length of the trails
-    for (var i = 0; i < trails.places.length; i++ ){
+    $.ajax({
+        url: queryURL,
+        method: "GET",
 
-        // create buttons for each trails item
-        var trailbutton = `<button class='waves-effect waves-light btn-large card-color trail-btn'  value=${[i]} style='width: 100%'> ${trails.places[i].name} </button>`;
+        // if the API returns an error, that means there are no activities
+        error: function(response, error) {
+            console.log(error);
+            var errText = $("<p>");
+            $("#content-con").append(errText);
+            errText.text("Sorry, no options match that activity in this area.");
+        },
+
+        // Once data is retrieved from API...
+        success: function(response) {
+            places = response;
+
+            let target = response.results;
+
+            createTrailButtons(target);
+        }
+    })
+}
+
+function activitySearch(active, api) {
+    // empty the card that contains the activity options (card is created below)
+    $("#content-con").empty();
+
+    // Add the title text
+    $("#content-con").text("Activity Options");
+
+    switch (api) {
+        case "trails": 
+            trailAPI(active);
+            break;
+        case "places":
+            placeAPI(active);
+            break;
+    }
+}
+
+
+function createTrailButtons(target) {
+    // loop through the length of the target
+    for (var i = 0; i < target.length; i++ ){
+
+        // create buttons for each item
+        var trailbutton = `<button class='waves-effect waves-light btn-large card-color trail-btn'  value=${[i]} style='width: 100%'> ${target[i].name} </button>`;
 
         // append to the card that holds the activity content
         $("#content-con").append(trailbutton);
@@ -456,17 +498,24 @@ $("body").on("click", ".activity-btn", function(){
     let active = $(this).attr("value");
     console.log(active);
 
-    activitySearch(active);
+    activitySearch(active, "trails");
 });
 
+// need to do places button
+$("body").on("click", ".places-btn", function() {
+    activitySearch(false, "places");
+});
+
+// listen for cilcks on individual trails to display table
 $("body").on("click", ".trail-btn", function(){
     // pull the value of the clicked button
     let index = $(this).attr("value");
 
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~ need to identify if it's a trail or a place button so i can pass in the right target here
     displayTrails(index);
 });
 
-// need to do places button
+
 
 // try to fix the placement of the info area
 
