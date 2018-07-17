@@ -79,7 +79,7 @@ function getWeather() {
                 $(".helper-text").text("Please enter a valid city.");
 
                 // reject the promise so no code runs
-                reject();
+                reject(new Error("Please enter a valid city"));
             },
 
             // Once data is retrieved from API...
@@ -232,38 +232,43 @@ function setUpNewPage() {
 }    
 
 // function to grab weather results and add to page
-function updateWeather(response) {
-    // Pull the current weather from the API and store in a variable
-    let nowWeather = response.list["0"].weather["0"].main;
+function displayWeather(response) {
 
-    // Pull the description of the current weather from the API and store in a variable
-    let nowWeatherDescription = response.list["0"].weather["0"].description;
+    return new Promise((resolve, reject) => {
+        // Pull the current weather from the API and store in a variable
+        let nowWeather = response.list["0"].weather["0"].main;
 
-    // Pull the humidity value from the API and store in a variable
-    let humidity = response.list["0"].main.humidity;
+        // Pull the description of the current weather from the API and store in a variable
+        let nowWeatherDescription = response.list["0"].weather["0"].description;
 
-    // Pull and round the current temperature converted to F, store in a variable
-    let temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
+        // Pull the humidity value from the API and store in a variable
+        let humidity = response.list["0"].main.humidity;
 
-    // pull the location's latitude from the API
-    mapMarker.lat = response.city.coord.lat;
+        // Pull and round the current temperature converted to F, store in a variable
+        let temperature = Math.round((response.list["0"].main.temp - 273.15) * 1.8 + 32);
 
-    // Pull the location's longitude from the API
-    mapMarker.long = response.city.coord.lon;
-        
-    // Adding in the text for the card - title
-    $("#new-weather-content").append(`<p style='font-size: 20px' class='center-align'>Weather conditions for ${response.city.name} </p><br>`)
+        // pull the location's latitude from the API
+        mapMarker.lat = response.city.coord.lat;
 
-    // Append a P tag that will hold the weather info
-    $("#new-weather-content").append(`<p class='center-align'>Next 3 hours:<br>  ${nowWeatherDescription} | ${humidity}% humidity | ${temperature} &#176 F</p><br>`)
+        // Pull the location's longitude from the API
+        mapMarker.long = response.city.coord.lon;
+            
+        // Adding in the text for the card - title
+        $("#new-weather-content").append(`<p style='font-size: 20px' class='center-align'>Weather conditions for ${response.city.name} </p><br>`)
 
-    weatherSuggestion(nowWeather);
+        // Append a P tag that will hold the weather info
+        $("#new-weather-content").append(`<p class='center-align'>Next 3 hours:<br>  ${nowWeatherDescription} | ${humidity}% humidity | ${temperature} &#176 F</p><br>`)
+
+        resolve(nowWeather);
+    })
 }
 
 // function to suggest activities
 function weatherSuggestion(weather) {
 
     // choose an activity suggestion based on the weather
+
+    console.log(weather);
 
     let weatherSuggestion = "";
     let weatherImage = "";
@@ -296,12 +301,11 @@ function weatherSuggestion(weather) {
 
             weatherImage = "sun.jpg";
 
-            console.log("default");
             break;
     }  
 
     // append weather suggestion and weather image to the page
-    $('#newWeatherContent').append(`<p class='center-align'>${weatherSuggestion}</p>`);
+    $('#new-weather-content').append(`<p class='center-align'>${weatherSuggestion}</p>`);
 
     $('#weatherCard').css("background-image", `url("assets/images/${weatherImage}")`);
 }
@@ -310,33 +314,28 @@ function weatherSuggestion(weather) {
 // function to check the user's city input
 function citySearch(){
 
-    // Pull the value from the search form
-    userCity = $("#usercity").val().trim();
+    return new Promise((resolve, reject) => {
 
-    // make the city lowercase so the data is standardized in our database
-    userCity = userCity.toLowerCase();
+        // Pull the value from the search form
+        userCity = $("#usercity").val().trim();
+
+        // make the city lowercase so the data is standardized in our database
+        userCity = userCity.toLowerCase();
+        
+        console.log("userCity: " + userCity);
     
-    console.log("userCity: " + userCity);
-  
-    // input validation -- make sure they are entering enough characters
-    if (userCity.length < 3) {
-        $(".helper-text").text("Please enter a city name.")
-    }
+        // input validation -- make sure they are entering enough characters
+        if (userCity.length < 3) {
+            $(".helper-text").text("Please enter a city name.");
 
-    // if the input is long enough...
-    else {
-        // *************************************************************************************************************************************************************************************
-        // call API to get the weather for the city the user entered
-        getWeather()
-        .then(response => {
+            reject(new Error('Please enter a city name'));            
+        }
 
-            // hide the home page so we can load the search results
-            setUpNewPage();
-
-            // pass in the response from the api to update the weather info on the page
-            updateWeather(response);
-        });
-    }
+        // if the input is long enough...
+        else {
+            resolve();
+        }
+    })    
 }
 
 function trailAPI(active) {
@@ -475,20 +474,43 @@ function displayTrails(index) {
     initMap(trails.places[index].name);
 }
 
+// flow of functions upon searching for a city
+function pageLoad() {
+    citySearch()
+    .then(() => {
 
+        getWeather()
+        .then(response => {
+
+            setUpNewPage();
+
+            displayWeather(response)
+            .then(weather => {
+
+                weatherSuggestion(weather);
+            });
+        })
+        .catch(err => {
+            console.log(err.message);
+        })
+    })
+    .catch(err => {
+        console.log(err.message);
+    })
+}
 
 // *************************************************************************
 // Event listeners
 
 // When the user clicks the search button
 $("#user").on("click", function() {
-    citySearch();
+    pageLoad();
 });
 
 // Allow the user to hit enter to search
 $("#usercity").keyup(function(event) {
     if (event.keyCode === 13) {
-        citySearch();
+        pageLoad();
     }
 });
 
