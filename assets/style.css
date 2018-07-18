@@ -165,13 +165,13 @@ body {
 }
 
 /* Space between activity options btns and color */
-.trail-btn {
+.trail-btn, .place-btn {
     margin-bottom: 15px;
     background-color: #7da3a1;
 }
 
 /* Focus color of trail btns */
-.trail-btn:focus {
+.trail-btn:focus, .place-btn:focus {
     background-color: #0d1d23; 
 }
 
